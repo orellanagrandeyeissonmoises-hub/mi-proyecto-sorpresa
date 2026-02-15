@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
     transition: background 1.5s ease;
     background: black;
 }
@@ -47,9 +47,7 @@ button {
     transition: transform 0.2s;
 }
 
-button:hover {
-    transform: scale(1.05);
-}
+button:hover { transform: scale(1.05); }
 
 .progress-bar {
     width: 300px;
@@ -67,30 +65,15 @@ button:hover {
     transition: width 0.3s;
 }
 
-.signal {
-    font-size: 40px;
-    animation: pulse 1s infinite;
-}
+.signal { font-size: 40px; animation: pulse 1s infinite; }
 
-@keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
-}
+@keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
 
-.flash {
-    animation: flashScreen 0.1s infinite;
-}
+.flash { animation: flashScreen 0.1s infinite; }
 
-@keyframes flashScreen {
-    0% { background: black; }
-    50% { background: #330000; }
-    100% { background: black; }
-}
+@keyframes flashScreen { 0% { background: black; } 50% { background: #330000; } 100% { background: black; } }
 
-.screenOff {
-    background: black !important;
-}
+.screenOff { background: black !important; }
 
 .bigMessage {
     font-size: 45px;
@@ -100,45 +83,18 @@ button:hover {
     animation: fadeInZoom 2s ease forwards;
 }
 
-@keyframes fadeInZoom {
-    0% { opacity: 0; transform: scale(0.7); }
-    100% { opacity: 1; transform: scale(1); }
-}
+@keyframes fadeInZoom { 0% { opacity: 0; transform: scale(0.7); } 100% { opacity: 1; transform: scale(1); } }
 
-@keyframes aparecer {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes aparecer { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.loveMessage {
-    font-size: 35px;
-    color: white;
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px white;
-}
+.florPixel { font-size: 35px; margin-top: 15px; margin-bottom: 15px; letter-spacing: 10px; }
 
-.mensajeBonito {
-    font-size: 22px;
-    margin-top: 15px;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-.florPixel {
-    font-size: 35px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    letter-spacing: 10px;
-}
-
-/* Sección de comentarios mejorada */
 .comentarios-section {
     margin-top: 25px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 15px;
     border: 1px solid #00ffcc;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
 }
 
 textarea {
@@ -147,9 +103,8 @@ textarea {
     border-radius: 8px;
     padding: 10px;
     margin-top: 10px;
-    border: 1px solid #ccc;
+    border: none;
     font-family: inherit;
-    font-size: 15px;
     resize: none;
 }
 </style>
@@ -175,16 +130,9 @@ const temaEspecial = {
     descripcion:"Plataforma experimental enfocada en monitoreo natural."
 };
 
-let temaSeleccionado;
+let temaSeleccionado = modo === "especial1" ? temaEspecial : temasNormales[Math.floor(Math.random()*temasNormales.length)];
 
-if(modo==="especial1"){
-    temaSeleccionado = temaEspecial;
-    document.body.style.background="linear-gradient(to right,#134e5e,#71b280)";
-}else{
-    temaSeleccionado = temasNormales[Math.floor(Math.random()*temasNormales.length)];
-    document.body.style.background="linear-gradient(to right,#0f2027,#203a43,#2c5364)";
-}
-
+// PANTALLA INICIAL
 document.getElementById("pantalla").innerHTML=`
     <h2>Plataforma en fase experimental</h2>
     <p>Este sistema se encuentra en desarrollo y puede presentar comportamientos inesperados.</p>
@@ -202,6 +150,9 @@ function mostrarFormulario(){
     <input type="text" id="nombreInput" placeholder="Ej: Yeisson Orellana">
     <br>
     <button onclick="guardarNombre()">Registrar acceso</button>
+    <p style="font-size:12px;opacity:0.6;margin-top:15px; color: #ffcc00;">
+    ⚠️ AVISO: El desarrollador podrá visualizar su nombre, fecha y hora de acceso para fines de auditoría técnica.
+    </p>
     `;
 }
 
@@ -228,11 +179,26 @@ async function guardarNombre(){
     iniciarSecuencia(nombre);
 }
 
+// FUNCIONES DE TEXTO (Para los errores)
+function escribir(id,texto,velocidad){
+    return new Promise(resolve=>{
+        let i=0; const el=document.getElementById(id);
+        const intervalo=setInterval(()=>{
+            el.innerHTML+=texto[i]; i++;
+            if(i>=texto.length){ clearInterval(intervalo); resolve(); }
+        },velocidad);
+    });
+}
+
 async function iniciarSecuencia(nombreUsuario){
     const contenido=document.getElementById("pantalla");
+    document.body.style.background="linear-gradient(to right,#0f2027,#203a43,#2c5364)";
+    
     contenido.innerHTML=`<div>Cargando usuario...</div><div class="signal">📡</div>`;
     await pausa(2000);
-    contenido.innerHTML=`<div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
+    
+    contenido.innerHTML=`<div>Estableciendo túnel seguro...</div>
+    <div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
     await animarBarra();
     
     document.body.classList.add("flash");
@@ -240,13 +206,31 @@ async function iniciarSecuencia(nombreUsuario){
     document.body.classList.remove("flash");
     document.body.style.background="black";
 
+    // SECUENCIA DE ERRORES (STACK TRACE)
+    contenido.innerHTML=`<div style="color:red;font-size:16px; text-align:left; font-family:monospace; margin-left:10%;">
+    ERROR_CODE: 0x784AF9<br>
+    STACK_TRACE: SYS_CORE_FAILURE<br>
+    MEMORY_DUMP: A9F-44-22-FF-19<br><br>
+    <div id="r1" style="color:#00ffcc;"></div>
+    <div id="r2" style="color:#00ffcc;"></div>
+    </div>`;
+    
+    await escribir("r1", "> Fallo crítico detectado. Reiniciando...", 40);
+    await pausa(800);
+    await escribir("r2", "> Restaurando interfaz de usuario...", 40);
+    await pausa(2000);
+
+    document.body.classList.add("screenOff");
+    await pausa(1500);
+    document.body.classList.remove("screenOff");
+
     contenido.innerHTML=`<div class="bigMessage">"Respira... todo está bajo control."</div>`;
-    await pausa(3000);
+    await pausa(3500);
 
     let nB = nombreUsuario.toLowerCase();
     let esVIP = (modo === "especial1") && (nB.includes("maria") || nB.includes("fer") || nB.includes("kim") || nB.includes("pamela") || nB.includes("silvia") || nB.includes("tatiana"));
 
-    mostrarRutaCompartida(nombreUsuario, esVIP);
+    mostrarRutaFinal(nombreUsuario, esVIP);
 }
 
 function animarBarra(){
@@ -255,31 +239,32 @@ function animarBarra(){
         const i=setInterval(()=>{
             a+=5; b.style.width=a+"%";
             if(a>=100){ clearInterval(i); resolve(); }
-        },100);
+        },120);
     });
 }
 
 function pausa(ms){ return new Promise(res=>setTimeout(res,ms)); }
 
-async function mostrarRutaCompartida(nombreUsuario, esVIP) {
+async function mostrarRutaFinal(nombreUsuario, esVIP) {
     const contenedor = document.getElementById("pantalla");
     document.body.style.background = "linear-gradient(to right, #6a11cb, #2575fc)";
     
-    const mensajesLargos = [
-        "A veces la vida nos pone pruebas para recordarnos de qué estamos hechos. Tienes una fuerza interior increíble.",
-        "Tu historia está llena de capítulos hermosos que aún no se han escrito. Mantén la esperanza alta.",
-        "Eres una persona maravillosa, capaz de lograr todo lo que te propongas. No dejes de brillar."
+    const mensajes = [
+        "A veces la vida nos pone pruebas para recordarnos de qué estamos hechos.",
+        "Tu historia está llena de capítulos hermosos que aún no se han escrito.",
+        "Eres una persona maravillosa, capaz de lograr todo lo que te propongas."
     ];
 
-    for(let m of mensajesLargos) {
-        contenedor.innerHTML = `<div style="animation: aparecer 1s forwards;"><div class="florPixel">✨ 🌸 ✨</div><p style="font-size:20px; line-height:1.6;">${m}</p></div>`;
+    for(let m of mensajes) {
+        contenedor.innerHTML = `<div style="animation: aparecer 1s forwards;"><div class="florPixel">✨ 🌸 ✨</div><p style="font-size:22px; line-height:1.6;">${m}</p></div>`;
         await pausa(4000);
     }
 
     if (esVIP) {
         contenedor.innerHTML = `
             <div style="animation: aparecer 1s forwards;">
-                <h1 style="color:#ffcc00;">🎁 Tienes un regalo especial</h1>
+                <h1 style="color:#ffcc00; text-shadow: 0 0 10px gold;">🎁 Tienes un regalo especial</h1>
+                <p style="font-size: 18px;">${nombreUsuario.toUpperCase()}, este detalle es para ti.</p>
                 <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')">ABRIR SORPRESA</button>
             </div>`;
     } else {
@@ -289,10 +274,10 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
                 <h2>¡Espero haberte sacado una sonrisa!</h2>
                 
                 <div id="zonaComentario" class="comentarios-section">
-                    <p style="margin:0;">¿Qué te pareció este pequeño detalle?</p>
+                    <p style="margin:0; font-weight: bold;">¿Qué te pareció este pequeño detalle?</p>
                     <textarea id="comentarioTexto" placeholder="Escribe un mensaje aquí..."></textarea>
                     <br>
-                    <button id="btnEnv" onclick="enviarFinal('${nombreUsuario}')">Enviar Mensaje</button>
+                    <button id="btnEnv" onclick="enviarFinal('${nombreUsuario}')" style="background: #00ffcc;">Enviar Mensaje</button>
                 </div>
                 
                 <p style="margin-top:20px; font-size:12px; opacity:0.7;">Creado por Yeisson Moises Orellana Grande</p>
@@ -305,7 +290,7 @@ async function enviarFinal(nom) {
     if(txt.trim()==="") return alert("Escribe algo primero 😊");
     document.getElementById("btnEnv").innerText = "Enviando...";
     await registrarEnExcel(nom, "COMENTARIO", txt);
-    document.getElementById("zonaComentario").innerHTML = "<p style='color:#00ffcc; font-weight:bold;'>¡Mensaje enviado con éxito! Gracias por participar. 😊</p>";
+    document.getElementById("zonaComentario").innerHTML = "<p style='color:#00ffcc; font-weight:bold; font-size: 18px;'>¡Mensaje enviado con éxito! 😊</p>";
 }
 </script>
 </body>
