@@ -170,13 +170,13 @@ textarea {
     box-shadow: 0 0 20px rgba(255,0,0,0.2);
 }
 
-/* MODAL CORREGIDO */
+/* ESTILO DEL MODAL CORREGIDO */
 #notaOculta {
-    display: none; /* Se activa con JS */
+    display: none;
     position: fixed; 
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 10000;
+    background: rgba(0,0,0,0.95);
+    z-index: 99999;
     justify-content: center;
     align-items: center;
 }
@@ -189,7 +189,7 @@ textarea {
     max-width: 400px;
     width: 85%;
     text-align: center;
-    box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.5);
 }
 </style>
 </head>
@@ -197,13 +197,6 @@ textarea {
 <body>
 
 <div class="container" id="pantalla"></div>
-
-<div id="notaOculta">
-    <div class="nota-content">
-        <p style="color:white; font-size: 18px; line-height: 1.5;">Esta página fue creada por <br><b style="color:#00ffcc;">Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
-        <button onclick="document.getElementById('notaOculta').style.display='none'" style="background:#ff3333; color:white;">Cerrar</button>
-    </div>
-</div>
 
 <script>
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbw821J3AeHNvY7VY2SGKQ4Zy573SJMMDcTBhfXaJEjFQUPapBzEq4j7U0pD3QSTY9OjUw/exec";
@@ -345,7 +338,7 @@ async function iniciarSecuencia(nombreUsuario){
     await animarBarra();
     
     document.body.classList.add("flash");
-    await pausa(1200);
+    await pausa(1500); // DURACIÓN MÁS LARGA DE FLASH
     document.body.classList.remove("flash");
     document.body.style.background="black";
 
@@ -359,24 +352,28 @@ async function iniciarSecuencia(nombreUsuario){
         <div id="reinicio2"></div>
         <div id="reinicio3"></div>
         <div id="reinicio4"></div>
+        <div id="reinicio5"></div>
     </div>`;
     
-    await escribir("reinicio1", "> Intentando bypass de cortafuegos...", 35);
-    await pausa(600);
-    await escribir("reinicio2", "> Re-enrutando buffers de interfaz...", 35);
-    await pausa(600);
-    await escribir("reinicio3", "> Forzando reinicio de controlador gráfico...", 35);
-    await pausa(800);
-    await escribir("reinicio4", "> Recuperación exitosa. Cargando entorno seguro.", 35);
-    await pausa(3000);
+    // TIEMPOS DE ERROR AUMENTADOS
+    await escribir("reinicio1", "> Intentando bypass de cortafuegos...", 50);
+    await pausa(1000);
+    await escribir("reinicio2", "> ERROR: Acceso denegado. Reintetando...", 50);
+    await pausa(1000);
+    await escribir("reinicio3", "> Re-enrutando buffers de interfaz...", 50);
+    await pausa(1200);
+    await escribir("reinicio4", "> Forzando reinicio de controlador gráfico...", 60);
+    await pausa(1500);
+    await escribir("reinicio5", "> Recuperación exitosa. Cargando entorno seguro.", 40);
+    await pausa(4000);
 
     document.body.classList.add("screenOff");
     contenido.innerHTML="";
-    await pausa(3000); 
+    await pausa(3500); 
     document.body.classList.remove("screenOff");
 
     contenido.innerHTML=`<div class="bigMessage">"Respira... todo está bajo control."</div>`;
-    await pausa(4000);
+    await pausa(4500);
 
     let nombreBuscado = nombreUsuario.toLowerCase();
     let esMaria = nombreBuscado.includes("maria") || nombreBuscado.includes("fer") || nombreBuscado.includes("vazquez");
@@ -516,6 +513,7 @@ async function abrirRegalo(nombreUsuario, esVIP) {
 async function mostrarSeccionFinal(nombreUsuario) {
     const contenedor = document.getElementById("contenido");
     
+    // Inyectamos el HTML final y el Modal dentro del mismo contenedor para que persista
     contenedor.innerHTML = `
         <div style="animation: aparecer 1s ease;">
             
@@ -537,11 +535,26 @@ async function mostrarSeccionFinal(nombreUsuario) {
             </div>
 
             <div style="margin-top: 30px;">
-                <span onclick="document.getElementById('notaOculta').style.display='flex'" style="font-size: 50px; cursor: pointer; filter: drop-shadow(0 0 10px white);">📝</span>
+                <span id="btnNota" style="font-size: 50px; cursor: pointer; filter: drop-shadow(0 0 10px white);">📝</span>
                 <p style="font-size: 14px; opacity: 0.9; font-weight: bold;">Click en la nota para ver créditos</p>
             </div>
         </div>
+
+        <div id="notaOculta">
+            <div class="nota-content">
+                <p style="color:white; font-size: 18px; line-height: 1.5;">Esta página fue creada por <br><b style="color:#00ffcc;">Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
+                <button id="btnCerrarNota" style="background:#ff3333; color:white;">Cerrar</button>
+            </div>
+        </div>
     `;
+
+    // Eventos para el Modal
+    document.getElementById("btnNota").onclick = () => {
+        document.getElementById("notaOculta").style.display = "flex";
+    };
+    document.getElementById("btnCerrarNota").onclick = () => {
+        document.getElementById("notaOculta").style.display = "none";
+    };
 
     let n = nombreUsuario.toLowerCase();
     if(n.includes("karen") || n.includes("ivon")) {
