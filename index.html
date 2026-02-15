@@ -7,7 +7,7 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     color: white;
     display: flex;
     justify-content: center;
@@ -25,56 +25,60 @@ body {
 }
 
 input {
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     border-radius: 8px;
     border: none;
     text-align: center;
     color: #333;
-    width: 80%;
+    width: 85%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 button {
     margin-top: 15px;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     background: #00c6ff;
     color: black;
     font-weight: bold;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,198,255,0.3);
 }
 
 button:hover {
     transform: scale(1.05);
+    background: #00ffcc;
 }
 
 .progress-bar {
     width: 300px;
-    height: 10px;
+    height: 12px;
     background: #333;
     margin: 20px auto;
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #444;
 }
 
 .progress-fill {
     height: 100%;
     width: 0%;
-    background: #00ffcc;
+    background: linear-gradient(90deg, #00c6ff, #00ffcc);
     transition: width 0.3s;
 }
 
 .signal {
-    font-size: 40px;
+    font-size: 45px;
     animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
+    0% { opacity: 0.3; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.3; transform: scale(0.9); }
 }
 
 .flash {
@@ -83,7 +87,7 @@ button:hover {
 
 @keyframes flashScreen {
     0% { background: black; }
-    50% { background: #330000; }
+    50% { background: #440000; }
     100% { background: black; }
 }
 
@@ -133,23 +137,24 @@ button:hover {
 
 .comentarios-section {
     margin-top: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
     border-radius: 15px;
-    border: 1px solid #00ffcc;
+    border: 1px solid rgba(0, 255, 204, 0.5);
     animation: aparecer 1s ease forwards;
 }
 
 textarea {
     width: 90%;
-    height: 60px;
+    height: 70px;
     border-radius: 8px;
     padding: 10px;
     margin-top: 10px;
     border: none;
-    font-family: Arial, sans-serif;
+    font-family: sans-serif;
     color: #333;
     resize: none;
+    background: rgba(255,255,255,0.9);
 }
 
 /* Estilo hacker para el error */
@@ -158,11 +163,28 @@ textarea {
     font-family: 'Courier New', Courier, monospace;
     text-align: left;
     font-size: 14px;
-    background: rgba(0,0,0,0.8);
-    padding: 15px;
-    border-radius: 5px;
-    border-left: 3px solid red;
+    background: rgba(0,0,0,0.9);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ff0000;
     margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.2);
+}
+
+#notaOculta {
+    display:none; 
+    position:fixed; 
+    top:50%; 
+    left:50%; 
+    transform:translate(-50%, -50%); 
+    background:rgba(0,0,0,0.95); 
+    padding:30px; 
+    border-radius:15px; 
+    border: 2px solid #00ffcc; 
+    z-index:100; 
+    width: 80%; 
+    max-width: 400px;
+    box-shadow: 0 0 30px #00ffcc;
 }
 </style>
 </head>
@@ -170,6 +192,11 @@ textarea {
 <body>
 
 <div class="container" id="pantalla"></div>
+
+<div id="notaOculta">
+    <p style="color:white; font-size: 16px;">Esta página fue creada por <b>Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
+    <button onclick="document.getElementById('notaOculta').style.display='none'" style="background:#ff3333; color:white;">Cerrar</button>
+</div>
 
 <script>
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbw821J3AeHNvY7VY2SGKQ4Zy573SJMMDcTBhfXaJEjFQUPapBzEq4j7U0pD3QSTY9OjUw/exec";
@@ -200,25 +227,29 @@ if(modo==="especial1" || modo==="especial2" || modo==="especial3"){
 
 // PANTALLA INICIAL
 document.getElementById("pantalla").innerHTML=`
-    <h2>Plataforma en fase experimental</h2>
-    <p>Este sistema se encuentra en desarrollo y puede presentar comportamientos inesperados.</p>
-    <p style="opacity:0.6;font-size:14px;">Versión Beta - Acceso limitado</p>
-    <br>
-    <button onclick="mostrarFormulario()">Entrar al sistema</button>
+    <div style="animation: aparecer 1s ease;">
+        <h2>Plataforma en fase experimental</h2>
+        <p>Este sistema se encuentra en desarrollo y puede presentar comportamientos inesperados.</p>
+        <p style="opacity:0.6;font-size:14px;">Versión Beta - Acceso limitado</p>
+        <br>
+        <button onclick="mostrarFormulario()">Entrar al sistema</button>
+    </div>
 `;
 
 function mostrarFormulario(){
     document.getElementById("pantalla").innerHTML=`
-    <h1>${temaSeleccionado.titulo}</h1>
-    <p>${temaSeleccionado.descripcion}</p>
-    <br>
-    <h3>Regístrate para continuar</h3>
-    <input type="text" id="nombreInput" placeholder="Ej: Yeisson Orellana">
-    <br>
-    <button onclick="guardarNombre()">Registrar acceso</button>
-    <p style="font-size:12px;opacity:0.6;margin-top:10px; color: #ffcc00;">
-    ⚠️ El desarrollador podrá visualizar su nombre, fecha y hora de acceso para fines técnicos.
-    </p>
+    <div style="animation: aparecer 0.8s ease;">
+        <h1>${temaSeleccionado.titulo}</h1>
+        <p>${temaSeleccionado.descripcion}</p>
+        <br>
+        <h3>Regístrate para continuar</h3>
+        <input type="text" id="nombreInput" placeholder="Ej: Yeisson Orellana">
+        <br>
+        <button onclick="guardarNombre()">Registrar acceso</button>
+        <p style="font-size:12px;opacity:0.8;margin-top:15px; color: #ffcc00; font-weight: bold;">
+        ⚠️ AVISO: El desarrollador registrará el nombre y hora de acceso por motivos de depuración.
+        </p>
+    </div>
     `;
 }
 
@@ -247,7 +278,6 @@ async function guardarNombre(){
     iniciarSecuencia(nombre);
 }
 
-// FUNCIONES DE SOPORTE
 function pausa(ms){ return new Promise(resolve=>setTimeout(resolve,ms)); }
 
 function animarBarra(){
@@ -292,54 +322,58 @@ function clickNavegacion(dir) {
     if (resolveBotonClic) resolveBotonClic();
 }
 
-// SECUENCIA PRINCIPAL
+// SECUENCIA PRINCIPAL EXTENDIDA
 async function iniciarSecuencia(nombreUsuario){
     document.body.style.background="linear-gradient(to right,#0f2027,#203a43,#2c5364)";
     document.body.innerHTML=`<div class="container" id="contenido"></div>`;
     const contenido=document.getElementById("contenido");
 
-    contenido.innerHTML=`<div>Cargando usuario...</div><div class="signal">📡</div>`;
-    await pausa(2000);
+    contenido.innerHTML=`<div>Cargando perfil de usuario...</div><div class="signal">📡</div>`;
+    await pausa(2500);
 
     contenido.innerHTML="";
-    await escribir("contenido","Estableciendo túnel de conexión segura...",40);
-    await pausa(1000);
+    await escribir("contenido","Estableciendo túnel de conexión cifrada SSL...",40);
+    await pausa(1200);
 
     contenido.innerHTML=`<div>Sincronizando módulos del núcleo...</div>
     <div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
     await animarBarra();
     
-    // El Efecto de Flash / Error
+    // SECUENCIA DE ERROR LARGA
     document.body.classList.add("flash");
-    await pausa(1000);
+    await pausa(1200);
     document.body.classList.remove("flash");
     document.body.style.background="black";
 
     contenido.innerHTML=`
     <div class="error-text">
-        [SYSTEM FAILURE]<br>
-        ERROR: ACCESS_VIOLATION_0x0045<br>
-        SOURCE: CORE_INTERFACE_RESTRICTION<br>
+        [CRITICAL_SYSTEM_FAILURE]<br>
+        ID: ACCESS_VIOLATION_ERR_0x99<br>
+        STATUS: KERNEL_PANIC_DETECTED<br>
         -----------------------------------<br>
         <div id="reinicio1"></div>
         <div id="reinicio2"></div>
         <div id="reinicio3"></div>
+        <div id="reinicio4"></div>
     </div>`;
     
-    await escribir("reinicio1", "> Intentando bypass de seguridad...", 30);
-    await pausa(500);
-    await escribir("reinicio2", "> Re-enrutando interfaz emocional...", 30);
-    await pausa(500);
-    await escribir("reinicio3", "> Restauración completada. Iniciando modo humano.", 30);
-    await pausa(2000);
+    await escribir("reinicio1", "> Intentando bypass de cortafuegos...", 35);
+    await pausa(600);
+    await escribir("reinicio2", "> Re-enrutando buffers de interfaz...", 35);
+    await pausa(600);
+    await escribir("reinicio3", "> Forzando reinicio de controlador gráfico...", 35);
+    await pausa(800);
+    await escribir("reinicio4", "> Recuperación exitosa. Cargando entorno seguro.", 35);
+    await pausa(3000);
 
+    // APAGÓN EXTENDIDO
     document.body.classList.add("screenOff");
     contenido.innerHTML="";
-    await pausa(1500);
+    await pausa(3000); 
     document.body.classList.remove("screenOff");
 
     contenido.innerHTML=`<div class="bigMessage">"Respira... todo está bajo control."</div>`;
-    await pausa(3500);
+    await pausa(4000);
 
     let nombreBuscado = nombreUsuario.toLowerCase();
     let esMaria = nombreBuscado.includes("maria") || nombreBuscado.includes("fer") || nombreBuscado.includes("vazquez");
@@ -369,7 +403,7 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
     mensajesCortos.sort(() => Math.random() - 0.5);
 
     contenedor.innerHTML = `
-        <div class="loveMessage">💖 BIENVENIDA(O) 💖</div>
+        <div class="loveMessage" style="animation: aparecer 1s ease;">💖 BIENVENIDA(O) 💖</div>
         <div class="florPixel">✨ 🌸 🦋</div>
         <div id="mensajeSecuencia" class="mensajeBonito" style="min-height: 80px;"></div>
     `;
@@ -397,13 +431,14 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
         contenedor.innerHTML = "";
         let divNombre = document.createElement("div");
         divNombre.style.fontSize = "40px"; divNombre.style.fontWeight = "bold";
-        divNombre.style.color = "#ffcc00"; divNombre.innerText = nombreFinal;
+        divNombre.style.color = "#ffcc00"; divNombre.style.textShadow="0 0 10px rgba(0,0,0,0.5)";
+        divNombre.innerText = nombreFinal;
         
         let divAdornos = document.createElement("div");
         divAdornos.className = "florPixel"; divAdornos.innerText = "🌸 ✨ 💖 🦋";
         
         let divTexto = document.createElement("div");
-        divTexto.style.fontSize = "20px"; divTexto.style.lineHeight = "1.5"; divTexto.style.maxWidth = "90%"; divTexto.style.margin = "0 auto";
+        divTexto.style.fontSize = "22px"; divTexto.style.lineHeight = "1.6"; divTexto.style.maxWidth = "90%"; divTexto.style.margin = "0 auto";
 
         let divBotones = document.createElement("div");
         divBotones.style.display = "none"; divBotones.style.marginTop = "30px"; divBotones.style.gap = "15px"; divBotones.style.justifyContent = "center";
@@ -417,7 +452,7 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
 
         let btnSiguiente = document.createElement("button");
         btnSiguiente.innerText = (indice === mensajesLargos.length - 1) ? "Finalizar ▶" : "Siguiente ▶"; 
-        btnSiguiente.style.background = "#00ffcc";
+        btnSiguiente.style.background = "#00ffcc"; btnSiguiente.style.color="black";
         btnSiguiente.onclick = () => clickNavegacion('next');
         divBotones.appendChild(btnSiguiente);
 
@@ -426,7 +461,7 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
         contenedor.appendChild(divTexto);
         contenedor.appendChild(divBotones);
 
-        await escribirEfectoTexto(divTexto, mensajesLargos[indice], 50);
+        await escribirEfectoTexto(divTexto, mensajesLargos[indice], 55);
         divBotones.style.display = "flex";
         await new Promise(resolve => { resolveBotonClic = resolve; });
 
@@ -434,12 +469,12 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
         else if (direccionBoton === 'prev') { indice--; }
     }
 
-    // REGALO Y FINAL
+    // REGALO Y FINAL ESTRUCTURADO
     document.body.style.background = "linear-gradient(to right, #ff758c, #ff7eb3)";
     contenedor.innerHTML = `
-        <div class="florPixel">🎀 🎁 🎀</div>
-        <h1 style="font-size:40px; text-shadow: 0 0 10px white; animation: aparecer 1s forwards;">Tienes un regalo...</h1>
-        <button onclick="abrirRegalo('${nombreUsuario}', ${esVIP})" style="font-size:20px; padding:15px 40px; background:#ffcc00; animation: aparecer 1.5s forwards;">
+        <div class="florPixel" style="animation: aparecer 1s ease;">🎀 🎁 🎀</div>
+        <h1 style="font-size:40px; text-shadow: 0 0 10px white; animation: aparecer 1.2s forwards;">Tienes un regalo...</h1>
+        <button onclick="abrirRegalo('${nombreUsuario}', ${esVIP})" style="font-size:22px; padding:15px 45px; background:#ffcc00; box-shadow: 0 0 20px #ffcc00; border:none; animation: aparecer 1.5s forwards;">
             Entrar
         </button>
     `;
@@ -447,45 +482,73 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
 
 async function abrirRegalo(nombreUsuario, esVIP) {
     const contenedor = document.getElementById("contenido");
+    
+    // PRIMERO EL MENSAJE DE REGALO
     if (esVIP) {
         document.body.style.background = "linear-gradient(to right, #b30059, #800040)";
         contenedor.innerHTML = `
-            <div class="florPixel" style="font-size: 50px;">🌷 ✨ 🌷</div>
-            <div style="font-size:28px; font-weight:bold; font-style:italic;">
-                "Tenerte en mi vida es uno de los detalles más bonitos que me han pasado."
+            <div style="animation: aparecer 1s ease;">
+                <div class="florPixel" style="font-size: 50px;">🌷 ✨ 🌷</div>
+                <div style="font-size:28px; font-weight:bold; font-style:italic; line-height:1.5;">
+                    "Tenerte en mi vida es uno de los detalles más bonitos que me han pasado."
+                </div>
+                <br>
+                <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')" style="background:#ffcc00; font-size:20px; padding:15px 30px;">
+                    Abrir Sorpresa Especial
+                </button>
             </div>
-            <div style="font-size:20px; margin-top: 40px;">Att: Yeisson Orellana 😊</div>
-            <br>
-            <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')" style="background:#ffcc00;">
-                Abrir Sorpresa
-            </button>
         `;
     } else {
         document.body.style.background = "linear-gradient(to right, #ff416c, #ff4b2b)";
         contenedor.innerHTML = `
-            <div style="animation: aparecer 2s forwards;">
+            <div style="animation: aparecer 1s ease;">
                 <div style="font-size: 60px;">❤️</div>
-                <div style="font-size: 22px; padding: 20px; border: 2px solid white; border-radius: 20px;">
-                    Eres una persona maravillosa, capaz de lograr todo lo que te propongas.
+                <div style="font-size: 24px; padding: 25px; border: 3px solid white; border-radius: 20px; background: rgba(255, 255, 255, 0.1);">
+                    Eres una persona maravillosa, capaz de lograr todo lo que te propongas. Que nunca te falte luz ni alegría.
                 </div>
-                <p>Espero haberte sacado una sonrisa 😊</p>
-                
-                <div id="zonaComentario" class="comentarios-section">
-                    <p style="margin:0; font-weight:bold;">¿Qué te pareció el detalle?</p>
-                    <textarea id="comentarioTexto" placeholder="Deja un mensaje aquí..."></textarea>
-                    <button onclick="enviarComentarioFinal('${nombreUsuario}')" style="background:#00ffcc; color:black;">Enviar comentario</button>
-                </div>
-                
-                <div style="margin-top: 20px; font-size: 12px; opacity: 0.5;">
-                    Hecho por Yeisson Orellana
-                </div>
+                <p style="font-size: 20px; margin-top: 20px;">Espero haberte sacado una sonrisa 😊</p>
+                <button onclick="mostrarSeccionFinal('${nombreUsuario}')" style="background:#00ffcc; color:black; margin-top: 20px;">Continuar</button>
             </div>
         `;
-        
-        let n = nombreUsuario.toLowerCase();
-        if(n.includes("karen") || n.includes("ivon")) {
-            contenedor.innerHTML += `<div style="color:#ffde59; margin-top:10px;">¡PD: Regaleme el llavero Karen! 🥲</div>`;
-        }
+    }
+}
+
+async function mostrarSeccionFinal(nombreUsuario) {
+    const contenedor = document.getElementById("contenido");
+    
+    contenedor.innerHTML = `
+        <div style="animation: aparecer 1s ease;">
+            <div style="font-size:22px; font-weight: bold; margin-bottom: 20px; color: #fff; text-shadow: 1px 1px 5px black;">
+                Att: Yeisson Moises Orellana Grande 😊
+            </div>
+
+            <div id="zonaComentario" class="comentarios-section">
+                <p style="margin:0; font-weight:bold; font-size: 18px;">¿Qué te pareció el detalle?</p>
+                <textarea id="comentarioTexto" placeholder="Escribe un mensaje o comentario..."></textarea>
+                <br>
+                <button onclick="enviarComentarioFinal('${nombreUsuario}')" style="background:#00ffcc; color:black; font-weight:bold;">Enviar comentario</button>
+            </div>
+
+            <div style="font-size: 60px; font-weight: bold; color: #ffde59; margin-top: 40px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">
+                FIN
+            </div>
+
+            <div style="margin-top: 30px;">
+                <span onclick="document.getElementById('notaOculta').style.display='block'" style="font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 10px white);">📝</span>
+                <p style="font-size: 12px; opacity: 0.7;">Click en la nota para ver créditos</p>
+            </div>
+        </div>
+    `;
+
+    // AGREGADO ESPECIAL PARA KAREN
+    let n = nombreUsuario.toLowerCase();
+    if(n.includes("karen") || n.includes("ivon")) {
+        const pExtra = document.createElement("p");
+        pExtra.style.color = "#ffde59";
+        pExtra.style.fontWeight = "bold";
+        pExtra.style.marginTop = "15px";
+        pExtra.innerText = "¡PD: Regaleme el llavero Karen! 🥲";
+        contenedor.querySelector('.comentarios-section').after(pExtra);
     }
 }
 
@@ -493,9 +556,9 @@ async function enviarComentarioFinal(nombreUsuario) {
     const texto = document.getElementById("comentarioTexto").value;
     if(texto.trim() === "") return alert("Escribe algo antes de enviar 😊");
     const zona = document.getElementById("zonaComentario");
-    zona.innerHTML = "<p>Enviando mensaje...</p>";
+    zona.innerHTML = "<p style='color: white; font-weight: bold;'>Enviando mensaje al servidor...</p>";
     await registrarEnExcel(nombreUsuario, "COMENTARIO", texto);
-    zona.innerHTML = "<p style='color:#00ffcc; font-weight:bold;'>¡Mensaje enviado! Gracias por tu tiempo. 😊</p>";
+    zona.innerHTML = "<p style='color:#00ffcc; font-weight:bold; font-size: 18px;'>¡Mensaje enviado con éxito! <br> Muchas gracias por tus palabras. 😊</p>";
 }
 </script>
 </body>
