@@ -7,41 +7,48 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
     transition: background 1.5s ease;
     background: black;
 }
 
 .container {
     text-align: center;
+    width: 90%;
     max-width: 600px;
     padding: 20px;
 }
 
 input {
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     border-radius: 8px;
     border: none;
     text-align: center;
     color: #333;
+    width: 80%;
 }
 
 button {
     margin-top: 15px;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     background: #00c6ff;
     color: black;
     font-weight: bold;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
 }
 
 .progress-bar {
@@ -86,10 +93,10 @@ button {
 }
 
 .bigMessage {
-    font-size: 55px;
+    font-size: 45px;
     font-weight: bold;
     color: #00ffcc;
-    text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+    text-shadow: 0 0 15px #00ffcc;
     animation: fadeInZoom 2s ease forwards;
 }
 
@@ -104,7 +111,7 @@ button {
 }
 
 .loveMessage {
-    font-size: 40px;
+    font-size: 35px;
     color: white;
     margin-bottom: 20px;
     text-shadow: 0 0 10px white;
@@ -122,57 +129,55 @@ button {
     margin-top: 15px;
     margin-bottom: 15px;
     letter-spacing: 10px;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
-/* Estilos para la sección de comentarios final */
+/* Sección de comentarios mejorada */
 .comentarios-section {
     margin-top: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
     border-radius: 15px;
     border: 1px solid #00ffcc;
-    animation: aparecer 1s ease forwards;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
 }
+
 textarea {
     width: 90%;
-    height: 60px;
+    height: 80px;
     border-radius: 8px;
     padding: 10px;
     margin-top: 10px;
-    border: none;
-    font-family: Arial, sans-serif;
-    color: #333;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 15px;
     resize: none;
 }
 </style>
 </head>
 
 <body>
-
 <div class="container" id="pantalla"></div>
 
 <script>
-// URL DE TU GOOGLE SCRIPT
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbw821J3AeHNvY7VY2SGKQ4Zy573SJMMDcTBhfXaJEjFQUPapBzEq4j7U0pD3QSTY9OjUw/exec";
 
 const params = new URLSearchParams(window.location.search);
 const modo = params.get("modo");
 
 const temasNormales = [
-{titulo:"🏍 Simulación de Telemetría Racing",descripcion:"Sistema piloto de pruebas dinámicas urbanas."},
-{titulo:"⚽ Plataforma de Análisis Deportivo",descripcion:"Evaluación estadística avanzada de rendimiento competitivo."},
-{titulo:"🔧 Diagnóstico Inteligente de Talleres",descripcion:"Proyecto para evaluación digital de servicios técnicos."}
+    {titulo:"🏍 Simulación de Telemetría Racing",descripcion:"Sistema piloto de pruebas dinámicas urbanas."},
+    {titulo:"⚽ Plataforma de Análisis Deportivo",descripcion:"Evaluación estadística avanzada de rendimiento competitivo."},
+    {titulo:"🔧 Diagnóstico Inteligente de Talleres",descripcion:"Proyecto para evaluación digital de servicios técnicos."}
 ];
 
 const temaEspecial = {
-titulo:"🌍 Proyecto de Observación Ambiental",
-descripcion:"Plataforma experimental enfocada en monitoreo natural."
+    titulo:"🌍 Proyecto de Observación Ambiental",
+    descripcion:"Plataforma experimental enfocada en monitoreo natural."
 };
 
 let temaSeleccionado;
 
-if(modo==="especial1" || modo==="especial2" || modo==="especial3"){
+if(modo==="especial1"){
     temaSeleccionado = temaEspecial;
     document.body.style.background="linear-gradient(to right,#134e5e,#71b280)";
 }else{
@@ -181,11 +186,11 @@ if(modo==="especial1" || modo==="especial2" || modo==="especial3"){
 }
 
 document.getElementById("pantalla").innerHTML=`
-<h2>Plataforma en fase experimental</h2>
-<p>Este sistema se encuentra en desarrollo y puede presentar comportamientos inesperados.</p>
-<p style="opacity:0.6;font-size:14px;">Versión Beta - Acceso limitado</p>
-<br>
-<button onclick="mostrarFormulario()">Entrar al sistema</button>
+    <h2>Plataforma en fase experimental</h2>
+    <p>Este sistema se encuentra en desarrollo y puede presentar comportamientos inesperados.</p>
+    <p style="opacity:0.6;font-size:14px;">Versión Beta - Acceso limitado</p>
+    <br>
+    <button onclick="mostrarFormulario()">Entrar al sistema</button>
 `;
 
 function mostrarFormulario(){
@@ -197,18 +202,13 @@ function mostrarFormulario(){
     <input type="text" id="nombreInput" placeholder="Ej: Yeisson Orellana">
     <br>
     <button onclick="guardarNombre()">Registrar acceso</button>
-    <p style="font-size:12px;opacity:0.6;margin-top:10px;">
-    Tu acceso será utilizado únicamente para fines demostrativos del sistema.
-    </p>
     `;
 }
 
-function capitalizarNombre(nombre){
-    return nombre.trim().toLowerCase().split(/\s+/)
-    .map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(" ");
+function capitalizarNombre(n){
+    return n.trim().toLowerCase().split(/\s+/).map(p=>p.charAt(0).toUpperCase()+p.slice(1)).join(" ");
 }
 
-// Función para enviar datos a Google Sheets
 async function registrarEnExcel(nombre, tipo, mensaje = "") {
     try {
         fetch(URL_GOOGLE_SCRIPT, {
@@ -217,363 +217,95 @@ async function registrarEnExcel(nombre, tipo, mensaje = "") {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nombre: nombre, tipo: tipo, mensaje: mensaje })
         });
-    } catch (e) { console.error("Error de registro"); }
+    } catch (e) { console.error("Error"); }
 }
 
 async function guardarNombre(){
     let nombre=document.getElementById("nombreInput").value.trim();
     if(nombre==="") return alert("Ingresa tu nombre");
-    if(nombre.split(" ").length>4) return alert("Máximo cuatro palabras");
     nombre = capitalizarNombre(nombre);
-    
-    // Registrar acceso en Excel
-    registrarEnExcel(nombre, "ACCESO", "Entró a la plataforma principal");
-    
+    registrarEnExcel(nombre, "ACCESO", "Entró a la plataforma");
     iniciarSecuencia(nombre);
 }
 
 async function iniciarSecuencia(nombreUsuario){
-    document.body.style.background="linear-gradient(to right,#0f2027,#203a43,#2c5364)";
-    document.body.innerHTML=`<div class="container" id="contenido"></div>`;
-    const contenido=document.getElementById("contenido");
-
+    const contenido=document.getElementById("pantalla");
     contenido.innerHTML=`<div>Cargando usuario...</div><div class="signal">📡</div>`;
-    await pausa(3000);
-
-    contenido.innerHTML="";
-    await escribir("contenido","Comprobando conexión segura...",60);
     await pausa(2000);
-
-    contenido.innerHTML=`<div>Estableciendo túnel seguro...</div>
-    <div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
+    contenido.innerHTML=`<div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
     await animarBarra();
-    await pausa(2000);
-
+    
     document.body.classList.add("flash");
-    await pausa(1500);
+    await pausa(1000);
     document.body.classList.remove("flash");
-
     document.body.style.background="black";
 
-    contenido.innerHTML=`<div style="color:red;font-size:18px; text-align:left; font-family:monospace; margin-left:10%;">
-    ERROR_CODE: 0x784AF9<br>
-    STACK_TRACE: SYS_CORE_FAILURE<br>
-    MEMORY_DUMP: A9F-44-22-FF-19<br><br>
-    <div id="reinicio1" style="color:#00ffcc;"></div>
-    <div id="reinicio2" style="color:#00ffcc;"></div>
-    <div id="reinicio3" style="color:#00ffcc;"></div>
-    </div>`;
-    
-    await pausa(1500);
-    await escribir("reinicio1", "> Fallo crítico detectado...", 40);
-    await pausa(500);
-    await escribir("reinicio2", "> Reiniciando módulos del sistema...", 40);
-    await pausa(800);
-    await escribir("reinicio3", "> Restaurando configuración de interfaz...", 40);
-    await pausa(2500);
+    contenido.innerHTML=`<div class="bigMessage">"Respira... todo está bajo control."</div>`;
+    await pausa(3000);
 
-    document.body.classList.add("screenOff");
-    contenido.innerHTML="";
-    await pausa(2000);
+    let nB = nombreUsuario.toLowerCase();
+    let esVIP = (modo === "especial1") && (nB.includes("maria") || nB.includes("fer") || nB.includes("kim") || nB.includes("pamela") || nB.includes("silvia") || nB.includes("tatiana"));
 
-    document.body.classList.remove("screenOff");
-
-    contenido.innerHTML=`<div class="bigMessage">
-    "Respira... todo está bajo control."
-    </div>`;
-    await pausa(4000);
-
-    let nombreBuscado = nombreUsuario.toLowerCase();
-    let esMaria = nombreBuscado.includes("maria") || nombreBuscado.includes("fer") || nombreBuscado.includes("vazquez");
-    let esKimberly = nombreBuscado.includes("kimberly") || nombreBuscado.includes("kim") || nombreBuscado.includes("pamela");
-    let esSilvia = nombreBuscado.includes("silvia") || nombreBuscado.includes("tatiana") || nombreBuscado.includes("esperanza");
-
-    let esVIP = false;
-    if ((modo === "especial1" || modo === "especial2" || modo === "especial3") && (esMaria || esKimberly || esSilvia)) {
-        esVIP = true; 
-    } 
-
-    mostrarRutaCompartida(nombreUsuario, esVIP); 
+    mostrarRutaCompartida(nombreUsuario, esVIP);
 }
 
 function animarBarra(){
     return new Promise(resolve=>{
-        let ancho=0;
-        const barra=document.getElementById("barra");
-        const intervalo=setInterval(()=>{
-            ancho+=5;
-            barra.style.width=ancho+"%";
-            if(ancho>=100){
-                clearInterval(intervalo);
-                resolve();
-            }
-        },150);
+        let a=0; const b=document.getElementById("barra");
+        const i=setInterval(()=>{
+            a+=5; b.style.width=a+"%";
+            if(a>=100){ clearInterval(i); resolve(); }
+        },100);
     });
 }
 
-function escribir(id,texto,velocidad){
-    return new Promise(resolve=>{
-        let i=0;
-        const el=document.getElementById(id);
-        const intervalo=setInterval(()=>{
-            el.innerHTML+=texto[i];
-            i++;
-            if(i>=texto.length){
-                clearInterval(intervalo);
-                resolve();
-            }
-        },velocidad);
-    });
-}
-
-function escribirEfectoTexto(elemento, texto, velocidad) {
-    return new Promise(resolve => {
-        let i = 0;
-        const intervalo = setInterval(() => {
-            elemento.innerHTML += texto[i];
-            i++;
-            if (i >= texto.length) {
-                clearInterval(intervalo);
-                resolve();
-            }
-        }, velocidad);
-    });
-}
-
-function pausa(ms){
-    return new Promise(resolve=>setTimeout(resolve,ms));
-}
-
-let resolveBotonClic;
-let direccionBoton = 'next';
-
-function clickNavegacion(dir) {
-    direccionBoton = dir;
-    if (resolveBotonClic) resolveBotonClic();
-}
+function pausa(ms){ return new Promise(res=>setTimeout(res,ms)); }
 
 async function mostrarRutaCompartida(nombreUsuario, esVIP) {
-    let nombreFormateado = capitalizarNombre(nombreUsuario);
-    let nombreFinal = nombreFormateado.toUpperCase();
-
-    document.body.style.background = "linear-gradient(to right, #b30059, #800040)";
-    const contenedor = document.getElementById("contenido");
-
-    const mensajesCortos = [
-        "La vida tiene detalles hermosos esperando por ti.",
-        "Un pequeño pensamiento positivo puede cambiar todo tu día.",
-        "No olvides que tu luz propia es capaz de iluminar a otros.",
-        "Cada día es una nueva oportunidad para volver a empezar.",
-        "Mereces todo lo bonito que el mundo tiene para dar.",
-        "Que hoy encuentres mil motivos para sonreír.",
-        "Tu presencia hace que el mundo sea un lugar mejor.",
-        "El universo conspira a favor de los corazones buenos.",
-        "Nunca subestimes el poder de tu propia magia.",
-        "Eres mucho más fuerte y valiente de lo que crees."
-    ];
-    mensajesCortos.sort(() => Math.random() - 0.5);
-
-    contenedor.innerHTML = `
-        <div class="loveMessage">💖 SEAS BIENVENIDA(O) 💖</div>
-        <div class="florPixel">✨ 🌸 🦋</div>
-        <div id="mensajeSecuencia" class="mensajeBonito" style="min-height: 80px;"></div>
-    `;
-
-    const areaMensajes = document.getElementById("mensajeSecuencia");
-    let cantidadMensajes = Math.floor(Math.random() * 4) + 5; 
-
-    for(let i=0; i<cantidadMensajes; i++){
-        areaMensajes.style.opacity = "0";
-        await pausa(500); 
-        areaMensajes.innerText = mensajesCortos[i];
-        areaMensajes.style.opacity = "1";
-        await pausa(3500); 
-    }
-
-    contenedor.innerHTML = "";
-    document.body.style.background = "linear-gradient(to right, #6a11cb, #2575fc)"; 
-    await pausa(1000);
-
+    const contenedor = document.getElementById("pantalla");
+    document.body.style.background = "linear-gradient(to right, #6a11cb, #2575fc)";
+    
     const mensajesLargos = [
-        "A veces la vida nos pone pruebas, pero es solo para recordarnos de qué estamos hechos. Tienes una fuerza interior que te hace capaz de superar cualquier obstáculo.",
-        "No te compares con nadie, tu camino es único y tu ritmo es perfecto. Lo que está destinado para ti llegará en el momento exacto.",
-        "Hay una magia especial en la forma en que ves el mundo. Nunca permitas que nadie apague tu entusiasmo.",
-        "Incluso en los días grises, recuerda que has logrado llegar muy lejos. Tómate un momento para reconocer tu valentía.",
-        "Tu historia está llena de capítulos hermosos que aún no se han escrito. Mantén la esperanza alta y el corazón abierto.",
-        "Cada pequeño paso que das te acerca más a la persona que quieres ser. No subestimes tus pequeños avances, porque juntos construyen grandes victorias.",
-        "Siéntete orgulloso u orgullosa de lo mucho que has crecido. A veces somos nuestros críticos más duros, pero mereces reconocer todo tu esfuerzo y dedicación.",
-        "Rodéate de aquello que le hace bien a tu alma. Tienes el derecho de buscar tu paz, de elegir tu felicidad y de brillar sin pedir disculpas.",
-        "Los errores no te definen, te enseñan. Cada tropiezo es solo una lección disfrazada que te prepara para recibir cosas mucho mejores en el futuro.",
-        "No importa cuán oscuro parezca el cielo, las estrellas siempre encuentran la forma de brillar. Tú también tienes esa luz inagotable dentro de ti.",
-        "Recuerda que está bien no tener todo resuelto hoy. Respira, tómate tu tiempo y confía en el proceso. Las mejores cosas de la vida toman su tiempo.",
-        "Eres una obra de arte en constante creación. Permítete cambiar, evolucionar y descubrir nuevas versiones de ti. Todas ellas son maravillosas."
+        "A veces la vida nos pone pruebas para recordarnos de qué estamos hechos. Tienes una fuerza interior increíble.",
+        "Tu historia está llena de capítulos hermosos que aún no se han escrito. Mantén la esperanza alta.",
+        "Eres una persona maravillosa, capaz de lograr todo lo que te propongas. No dejes de brillar."
     ];
-    
-    mensajesLargos.sort(() => Math.random() - 0.5);
-    const cantidadAMostrar = 5; 
 
-    let indice = 0;
-    while(indice < cantidadAMostrar){
-        contenedor.innerHTML = "";
-
-        let divNombre = document.createElement("div");
-        divNombre.style.fontSize = "45px";
-        divNombre.style.fontWeight = "bold";
-        divNombre.style.color = "#ffcc00";
-        divNombre.style.textShadow = "0 0 15px rgba(255, 204, 0, 0.8)";
-        divNombre.innerText = nombreFinal;
-        
-        let divAdornos = document.createElement("div");
-        divAdornos.className = "florPixel";
-        divAdornos.innerText = "🌸 ✨ 💖 🦋";
-        
-        let divTexto = document.createElement("div");
-        divTexto.style.fontSize = "22px";
-        divTexto.style.lineHeight = "1.6";
-        divTexto.style.maxWidth = "80%";
-        divTexto.style.margin = "0 auto";
-        divTexto.style.minHeight = "150px"; 
-
-        let divBotones = document.createElement("div");
-        divBotones.style.display = "none"; 
-        divBotones.style.marginTop = "40px";
-        divBotones.style.gap = "20px";
-        divBotones.style.justifyContent = "center";
-
-        if (indice > 0) {
-            let btnRegresar = document.createElement("button");
-            btnRegresar.innerText = "◀ Regresar";
-            btnRegresar.style.background = "#555";
-            btnRegresar.style.color = "white";
-            btnRegresar.onclick = () => clickNavegacion('prev');
-            divBotones.appendChild(btnRegresar);
-        }
-
-        let btnSiguiente = document.createElement("button");
-        btnSiguiente.innerText = "Siguiente ▶"; 
-        btnSiguiente.style.background = "#00ffcc";
-        btnSiguiente.style.color = "black";
-        btnSiguiente.onclick = () => clickNavegacion('next');
-        divBotones.appendChild(btnSiguiente);
-
-        contenedor.appendChild(divNombre);
-        contenedor.appendChild(divAdornos);
-        contenedor.appendChild(divTexto);
-        contenedor.appendChild(divBotones);
-
-        await escribirEfectoTexto(divTexto, mensajesLargos[indice], 70);
-        divBotones.style.display = "flex";
-
-        await new Promise(resolve => { resolveBotonClic = resolve; });
-
-        if (direccionBoton === 'next') {
-            indice++;
-        } else if (direccionBoton === 'prev') {
-            indice--;
-        }
+    for(let m of mensajesLargos) {
+        contenedor.innerHTML = `<div style="animation: aparecer 1s forwards;"><div class="florPixel">✨ 🌸 ✨</div><p style="font-size:20px; line-height:1.6;">${m}</p></div>`;
+        await pausa(4000);
     }
 
-    contenedor.innerHTML = "";
-    document.body.style.background = "linear-gradient(to right, #ff758c, #ff7eb3)";
-    await pausa(1000);
-
-    contenedor.innerHTML = `
-        <div class="florPixel">🎀 🎁 🎀</div>
-        <h1 style="font-size:45px; text-shadow: 0 0 15px white; margin-bottom: 30px; animation: aparecer 1s forwards;">Tienes un regalo...</h1>
-        <button onclick="abrirRegalo('${nombreUsuario}', ${esVIP})" style="font-size:22px; padding:15px 40px; background:#ffcc00; color:black; border-radius:12px; cursor:pointer; font-weight:bold; box-shadow: 0 0 20px #ffcc00; border: none; animation: aparecer 1.5s forwards;">
-            Entrar
-        </button>
-    `;
-}
-
-async function enviarComentarioFinal(nombreUsuario) {
-    const texto = document.getElementById("comentarioTexto").value;
-    if(texto.trim() === "") return alert("Escribe un mensaje antes de enviar 😊");
-    
-    const zona = document.getElementById("zonaComentario");
-    zona.innerHTML = "<p>Enviando...</p>";
-    
-    await registrarEnExcel(nombreUsuario, "COMENTARIO", texto);
-    
-    zona.innerHTML = `
-        <div style="color: #00ffcc; font-size: 18px; font-weight: bold;">
-            ¡Gracias! Tu comentario nos ayudará a seguir mejorando. 😊
-        </div>
-    `;
-}
-
-async function abrirRegalo(nombreUsuario, esVIP) {
-    const contenedor = document.getElementById("contenido");
     if (esVIP) {
-        document.body.style.background = "linear-gradient(to right, #b30059, #800040)";
-        contenedor.innerHTML = "";
-        
-        let divAmistad = document.createElement("div");
-        divAmistad.style.animation = "aparecer 2s forwards";
-        divAmistad.innerHTML = `
-            <div class="florPixel" style="font-size: 50px;">🌷 ✨ 🌷</div>
-            <div style="font-size:32px; font-weight:bold; font-style:italic; line-height:1.6;">
-                "Tenerte en mi vida es uno de los detalles más bonitos que me han pasado."
-            </div>
-            <div style="font-size:24px; margin-top: 50px; color: #fff; font-weight: bold;">
-                Att: Yeisson Moises Orellana Grande 😊
-            </div>
-        `;
-        contenedor.appendChild(divAmistad);
-        await pausa(5000);
-
-        let divRegalo = document.createElement("div");
-        divRegalo.style.marginTop = "60px";
-        divRegalo.style.animation = "aparecer 2s forwards";
-        divRegalo.innerHTML = `
-            <h1 style="font-size:45px; text-shadow: 0 0 15px white; margin-bottom: 30px;">🎁 Tienes algo especial...</h1>
-            <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')" style="font-size:22px; padding:15px 40px; background:#ffcc00; color:black; border-radius:12px; font-weight:bold; box-shadow: 0 0 20px #ffcc00; border: none;">
-                Abrir Sorpresa
-            </button>
-        `;
-        contenedor.appendChild(divRegalo);
-
+        contenedor.innerHTML = `
+            <div style="animation: aparecer 1s forwards;">
+                <h1 style="color:#ffcc00;">🎁 Tienes un regalo especial</h1>
+                <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')">ABRIR SORPRESA</button>
+            </div>`;
     } else {
-        document.body.style.background = "linear-gradient(to right, #ff416c, #ff4b2b)";
         contenedor.innerHTML = `
-            <div style="animation: fadeInZoom 2s ease forwards;">
-                <div style="font-size: 60px; color: #fff;">❤️</div>
-                <div style="font-size: 24px; padding: 20px; border: 3px solid #fff; border-radius: 20px; background: rgba(255, 255, 255, 0.15); line-height: 1.5;">
-                    Eres una persona maravillosa, capaz de lograr todo lo que te propongas. Que nunca te falte la luz ni la alegría en tu vida.
+            <div style="animation: aparecer 1s forwards;">
+                <div style="font-size: 50px;">😊</div>
+                <h2>¡Espero haberte sacado una sonrisa!</h2>
+                
+                <div id="zonaComentario" class="comentarios-section">
+                    <p style="margin:0;">¿Qué te pareció este pequeño detalle?</p>
+                    <textarea id="comentarioTexto" placeholder="Escribe un mensaje aquí..."></textarea>
+                    <br>
+                    <button id="btnEnv" onclick="enviarFinal('${nombreUsuario}')">Enviar Mensaje</button>
                 </div>
-            </div>
-        `;
-        await pausa(5500);
-        
-        contenedor.innerHTML += `<div style="font-size: 24px; margin-top: 30px; font-weight: bold; animation: aparecer 2s forwards;">Espero haberte sacado una sonrisa 😊</div>`;
-        await pausa(3000);
-
-        let n = nombreUsuario.toLowerCase();
-        if(n.includes("karen") || n.includes("ivon") || n.includes("mancia") || n.includes("rodriguez")) {
-            contenedor.innerHTML = `<div style="font-size: 32px; font-weight: bold; color: #ffde59; animation: aparecer 1.5s forwards;">¡Ah! Y por cierto...<br><br>Regaleme el llavero karennn🥲</div>`;
-            await pausa(5000);
-        }
-        
-        contenedor.innerHTML = `
-            <div style="font-size: 50px; font-weight: bold; color: #ffde59; animation: aparecer 2s forwards;">FIN</div>
-            <div id="zonaComentario" class="comentarios-section">
-                <p style="margin:0; font-weight:bold;">¿Qué te pareció el detalle?</p>
-                <textarea id="comentarioTexto" placeholder="Deja un comentario..."></textarea>
-                <button onclick="enviarComentarioFinal('${nombreUsuario}')" style="background:#00ffcc; color:black; margin-top:10px;">Enviar comentario</button>
-            </div>
-            <div style="margin-top: 30px;">
-                <span onclick="mostrarNotaOculta()" style="font-size: 35px; cursor: pointer;">📝</span>
-            </div>
-            <div id="notaOculta" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.95); padding:30px; border-radius:15px; border: 2px solid #00ffcc; z-index:100; width: 80%; max-width: 400px;">
-                <p>Esta página fue creada por Yeisson Moises Orellana Grande, con ayuda de IA, para sacar una sonrisa.</p>
-                <button onclick="document.getElementById('notaOculta').style.display='none'">Cerrar</button>
-            </div>
-        `;
+                
+                <p style="margin-top:20px; font-size:12px; opacity:0.7;">Creado por Yeisson Moises Orellana Grande</p>
+            </div>`;
     }
 }
 
-function mostrarNotaOculta() {
-    document.getElementById('notaOculta').style.display = 'block';
+async function enviarFinal(nom) {
+    const txt = document.getElementById("comentarioTexto").value;
+    if(txt.trim()==="") return alert("Escribe algo primero 😊");
+    document.getElementById("btnEnv").innerText = "Enviando...";
+    await registrarEnExcel(nom, "COMENTARIO", txt);
+    document.getElementById("zonaComentario").innerHTML = "<p style='color:#00ffcc; font-weight:bold;'>¡Mensaje enviado con éxito! Gracias por participar. 😊</p>";
 }
 </script>
 </body>
