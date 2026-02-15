@@ -172,24 +172,24 @@ textarea {
 
 /* MODAL CORREGIDO */
 #notaOculta {
-    display:none; 
-    position:fixed; 
-    top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.85);
-    z-index:9999;
+    display: none; /* Se activa con JS */
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
     justify-content: center;
     align-items: center;
 }
 
 .nota-content {
-    background: #1a1a1a;
+    background: #111;
     padding: 30px;
     border-radius: 15px;
     border: 2px solid #00ffcc;
     max-width: 400px;
     width: 85%;
     text-align: center;
-    box-shadow: 0 0 30px #00ffcc;
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
 }
 </style>
 </head>
@@ -198,8 +198,8 @@ textarea {
 
 <div class="container" id="pantalla"></div>
 
-<div id="notaOculta" onclick="this.style.display='none'">
-    <div class="nota-content" onclick="event.stopPropagation()">
+<div id="notaOculta">
+    <div class="nota-content">
         <p style="color:white; font-size: 18px; line-height: 1.5;">Esta página fue creada por <br><b style="color:#00ffcc;">Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
         <button onclick="document.getElementById('notaOculta').style.display='none'" style="background:#ff3333; color:white;">Cerrar</button>
     </div>
