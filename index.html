@@ -157,7 +157,6 @@ textarea {
     background: rgba(255,255,255,0.9);
 }
 
-/* Estilo hacker para el error */
 .error-text {
     color: #ff3333;
     font-family: 'Courier New', Courier, monospace;
@@ -171,19 +170,25 @@ textarea {
     box-shadow: 0 0 20px rgba(255,0,0,0.2);
 }
 
+/* MODAL CORREGIDO */
 #notaOculta {
     display:none; 
     position:fixed; 
-    top:50%; 
-    left:50%; 
-    transform:translate(-50%, -50%); 
-    background:rgba(0,0,0,0.95); 
-    padding:30px; 
-    border-radius:15px; 
-    border: 2px solid #00ffcc; 
-    z-index:100; 
-    width: 80%; 
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.85);
+    z-index:9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.nota-content {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #00ffcc;
     max-width: 400px;
+    width: 85%;
+    text-align: center;
     box-shadow: 0 0 30px #00ffcc;
 }
 </style>
@@ -193,9 +198,11 @@ textarea {
 
 <div class="container" id="pantalla"></div>
 
-<div id="notaOculta">
-    <p style="color:white; font-size: 16px;">Esta página fue creada por <b>Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
-    <button onclick="document.getElementById('notaOculta').style.display='none'" style="background:#ff3333; color:white;">Cerrar</button>
+<div id="notaOculta" onclick="this.style.display='none'">
+    <div class="nota-content" onclick="event.stopPropagation()">
+        <p style="color:white; font-size: 18px; line-height: 1.5;">Esta página fue creada por <br><b style="color:#00ffcc;">Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
+        <button onclick="document.getElementById('notaOculta').style.display='none'" style="background:#ff3333; color:white;">Cerrar</button>
+    </div>
 </div>
 
 <script>
@@ -225,7 +232,6 @@ if(modo==="especial1" || modo==="especial2" || modo==="especial3"){
     document.body.style.background="linear-gradient(to right,#0f2027,#203a43,#2c5364)";
 }
 
-// PANTALLA INICIAL
 document.getElementById("pantalla").innerHTML=`
     <div style="animation: aparecer 1s ease;">
         <h2>Plataforma en fase experimental</h2>
@@ -322,7 +328,6 @@ function clickNavegacion(dir) {
     if (resolveBotonClic) resolveBotonClic();
 }
 
-// SECUENCIA PRINCIPAL EXTENDIDA
 async function iniciarSecuencia(nombreUsuario){
     document.body.style.background="linear-gradient(to right,#0f2027,#203a43,#2c5364)";
     document.body.innerHTML=`<div class="container" id="contenido"></div>`;
@@ -339,7 +344,6 @@ async function iniciarSecuencia(nombreUsuario){
     <div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
     await animarBarra();
     
-    // SECUENCIA DE ERROR LARGA
     document.body.classList.add("flash");
     await pausa(1200);
     document.body.classList.remove("flash");
@@ -366,7 +370,6 @@ async function iniciarSecuencia(nombreUsuario){
     await escribir("reinicio4", "> Recuperación exitosa. Cargando entorno seguro.", 35);
     await pausa(3000);
 
-    // APAGÓN EXTENDIDO
     document.body.classList.add("screenOff");
     contenido.innerHTML="";
     await pausa(3000); 
@@ -417,7 +420,6 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
         await pausa(3000); 
     }
 
-    // MENSAJES LARGOS CON BOTONES
     document.body.style.background = "linear-gradient(to right, #6a11cb, #2575fc)"; 
     const mensajesLargos = [
         "A veces la vida nos pone pruebas, pero es solo para recordarnos de qué estamos hechos. Tienes una fuerza interior que te hace capaz de superar cualquier obstáculo.",
@@ -469,7 +471,6 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
         else if (direccionBoton === 'prev') { indice--; }
     }
 
-    // REGALO Y FINAL ESTRUCTURADO
     document.body.style.background = "linear-gradient(to right, #ff758c, #ff7eb3)";
     contenedor.innerHTML = `
         <div class="florPixel" style="animation: aparecer 1s ease;">🎀 🎁 🎀</div>
@@ -483,7 +484,6 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
 async function abrirRegalo(nombreUsuario, esVIP) {
     const contenedor = document.getElementById("contenido");
     
-    // PRIMERO EL MENSAJE DE REGALO
     if (esVIP) {
         document.body.style.background = "linear-gradient(to right, #b30059, #800040)";
         contenedor.innerHTML = `
@@ -518,10 +518,7 @@ async function mostrarSeccionFinal(nombreUsuario) {
     
     contenedor.innerHTML = `
         <div style="animation: aparecer 1s ease;">
-            <div style="font-size:22px; font-weight: bold; margin-bottom: 20px; color: #fff; text-shadow: 1px 1px 5px black;">
-                Att: Yeisson Moises Orellana Grande 😊
-            </div>
-
+            
             <div id="zonaComentario" class="comentarios-section">
                 <p style="margin:0; font-weight:bold; font-size: 18px;">¿Qué te pareció el detalle?</p>
                 <textarea id="comentarioTexto" placeholder="Escribe un mensaje o comentario..."></textarea>
@@ -529,26 +526,33 @@ async function mostrarSeccionFinal(nombreUsuario) {
                 <button onclick="enviarComentarioFinal('${nombreUsuario}')" style="background:#00ffcc; color:black; font-weight:bold;">Enviar comentario</button>
             </div>
 
+            <div id="mensajeExtra"></div>
+
+            <div style="font-size:24px; font-weight: bold; margin-top: 25px; color: #fff; text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">
+                Att: Yeisson Moises Orellana Grande 😊
+            </div>
+
             <div style="font-size: 60px; font-weight: bold; color: #ffde59; margin-top: 40px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">
                 FIN
             </div>
 
             <div style="margin-top: 30px;">
-                <span onclick="document.getElementById('notaOculta').style.display='block'" style="font-size: 40px; cursor: pointer; filter: drop-shadow(0 0 10px white);">📝</span>
-                <p style="font-size: 12px; opacity: 0.7;">Click en la nota para ver créditos</p>
+                <span onclick="document.getElementById('notaOculta').style.display='flex'" style="font-size: 50px; cursor: pointer; filter: drop-shadow(0 0 10px white);">📝</span>
+                <p style="font-size: 14px; opacity: 0.9; font-weight: bold;">Click en la nota para ver créditos</p>
             </div>
         </div>
     `;
 
-    // AGREGADO ESPECIAL PARA KAREN
     let n = nombreUsuario.toLowerCase();
     if(n.includes("karen") || n.includes("ivon")) {
-        const pExtra = document.createElement("p");
-        pExtra.style.color = "#ffde59";
-        pExtra.style.fontWeight = "bold";
-        pExtra.style.marginTop = "15px";
-        pExtra.innerText = "¡PD: Regaleme el llavero Karen! 🥲";
-        contenedor.querySelector('.comentarios-section').after(pExtra);
+        const divExtra = document.getElementById("mensajeExtra");
+        divExtra.innerHTML = `
+            <div style="background:rgba(255, 222, 89, 0.2); padding:20px; border-radius:15px; border: 2px solid #ffde59; margin-top:20px; animation: pulse 2s infinite;">
+                <p style="color:#ffde59; font-size: 28px; font-weight: 900; margin:0; text-shadow: 0 0 15px rgba(0,0,0,0.5);">
+                    ¡PD: Regaleme el llavero Karen! 🥲
+                </p>
+            </div>
+        `;
     }
 }
 
