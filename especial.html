@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un Mensaje Especial Para Ti ✨</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: linear-gradient(-45deg, #1a0b2e, #59185e, #9e2a2b, #e53935);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .container {
+        text-align: center;
+        max-width: 800px;
+        padding: 40px;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .flotante {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .titulo-nombre {
+        font-size: 50px;
+        font-weight: bold;
+        color: #ffde59;
+        text-shadow: 0 0 20px rgba(255, 222, 89, 0.8), 0 0 40px rgba(255, 222, 89, 0.5);
+        margin-bottom: 30px;
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+    }
+
+    .mensaje-largo {
+        font-size: 26px;
+        line-height: 1.6;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        min-height: 180px;
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+
+    .adornos {
+        font-size: 40px;
+        min-height: 60px;
+        margin-bottom: 20px;
+        letter-spacing: 15px;
+    }
+
+    .zona-botones {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 1.5s ease;
+        margin-top: 20px;
+    }
+
+    .mensaje-corto {
+        font-size: 22px;
+        font-weight: bold;
+        color: #00ffcc;
+        text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
+        font-style: italic;
+    }
+
+    .botones-nav {
+        display: flex;
+        gap: 20px;
+    }
+
+    button {
+        padding: 12px 30px;
+        font-size: 18px;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        transform: scale(1.1) translateY(-2px);
+    }
+
+    .btn-siguiente {
+        background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+        color: white;
+        box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+    }
+
+    .btn-regresar {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Estilos para el cuadro de comentarios final */
+    .comentarios-box {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        border: 1px solid #ffde59;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100px;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 15px 0;
+        border: none;
+        font-family: inherit;
+        font-size: 16px;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container" id="contenido"></div>
+
+<script>
+    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw821J3AeHNvY7VY2SGKQ4Zy573SJMMDcTBhfXaJEjFQUPapBzEq4j7U0pD3QSTY9OjUw/exec";
+
+    const params = new URLSearchParams(window.location.search);
+    let nombreRecibido = params.get("nombre") || "Amiga";
+    let nombreBuscado = nombreRecibido.toLowerCase();
+    
+    let nombreFinal = nombreRecibido.toUpperCase();
+    let mensajesLargos = []; 
+
+    if(nombreBuscado.includes("maria") || nombreBuscado.includes("fer") || nombreBuscado.includes("vazquez") || nombreBuscado.includes("vasques")){
+        nombreFinal = "MARÍA FERNANDA VÁSQUEZ";
+        mensajesLargos = [
+            "María, desde que te conozco me he dado cuenta de la luz tan bonita que irradias. Eres una chica excepcional y me siento muy afortunado de tenerte en mi vida.",
+            "A veces la rutina nos gana, pero quería tomarme un momento para decirte que me siento muy orgulloso de ti y de todo lo que logras cada día.",
+            "Admiro tu fuerza y esa valentía que tienes para enfrentar el mundo. Nunca dejes que nada ni nadie apague ese brillo tan tuyo, Fer.",
+            "Me encanta tu forma de ver la vida. Siempre logras sacarme una sonrisa genuina cuando platicamos.",
+            "Quiero que sepas que aquí tienes a un amigo incondicional. Para las risas, las locuras y también para los momentos donde necesites un abrazo en silencio."
+        ];
+    } 
+    else if(nombreBuscado.includes("kimberly") || nombreBuscado.includes("kim") || nombreBuscado.includes("pamela") || nombreBuscado.includes("lopes") || nombreBuscado.includes("lopez")){
+        nombreFinal = "KIMBERLY PAMELA LÓPEZ";
+        mensajesLargos = [
+            "Kimberly, tómate un momento para reconocer lo increíble que eres. A veces el mundo va muy rápido, pero tú siempre dejas una huella bonita por donde pasas.",
+            "Estoy muy contento de compartir esta etapa de la vida contigo. Eres una amiga que vale oro, Pamela, y valoro muchísimo tu sinceridad.",
+            "Tienes una energía única, Kim. Tu nobleza y tu gran corazón son cosas que admiro profundamente de ti como amigo.",
+            "Sé que eres capaz de superar cualquier obstáculo que se te presente. Estoy muy orgulloso de la mujer en la que te estás convirtiendo día a día.",
+            "Pase lo que pase, recuerda que cuentas conmigo. Deseo de todo corazón que la vida te devuelva todo lo hermoso que le das a los demás."
+        ];
+    }
+    else if(nombreBuscado.includes("silvia") || nombreBuscado.includes("tatiana") || nombreBuscado.includes("esperanza")){
+        nombreFinal = "SILVIA TATIANA ESPERANZA";
+        mensajesLargos = [
+            "Silvia, hay personas que iluminan los lugares a los que llegan, y tú definitivamente eres una de ellas. Gracias por esa vibra tan bonita que siempre transmites.",
+            "Quiero aprovechar este pequeño espacio para recordarte lo valiosa que eres. Admiro tu fuerza, tu perseverancia y la forma en que siempre buscas salir adelante.",
+            "Eres una amiga increíble, Tatiana. Valoro mucho cada plática, cada risa compartida y esa confianza que hace que cualquier momento sea especial.",
+            "Nunca dudes de la inmensa capacidad que tienes para lograr cosas grandes. Tienes un corazón gigante y el mundo necesita más personas con tu hermosa esencia.",
+            "Gracias por existir y por dejarme ser parte de tu vida. Recuerda que aquí tienes a un amigo que siempre te va a apoyar y celebrar todos tus triunfos."
+        ];
+    }
+    else {
+        nombreFinal = nombreFinal || "AMIGA INCREÍBLE";
+        mensajesLargos = [
+            "Eres una persona maravillosa y mereces todo lo bonito que el mundo tiene para ofrecer.",
+            "Nunca olvides lo especial que eres para las personas que te rodean.",
+            "Sigue brillando con esa luz y esa energía que te caracteriza.",
+            "El mundo es un lugar mucho mejor porque tú estás en él.",
+            "Gracias por ser tú, simplemente increíble."
+        ];
+    }
+
+    const mensajesCortos = [
+        "« Nunca dejes de brillar, por favor ✨ »",
+        "« Eres más valiente de lo que crees 💖 »",
+        "« Tu sonrisa es pura magia 🌸 »",
+        "« Aquí estoy y aquí estaré para ti 🤝 »",
+        "« Eres invaluable para mí 💎 »"
+    ];
+
+    const adornos = ["🌸", "✨", "🦋", "💖", "🌷", "🌹", "🌟", "🎀"];
+    let indiceSlide = 0;
+    const totalSlides = mensajesLargos.length;
+    let resolveBotonClic;
+    let direccionBoton = 'next';
+
+    function clickNavegacion(dir) {
+        direccionBoton = dir;
+        if (resolveBotonClic) resolveBotonClic();
+    }
+
+    function lanzarConfeti() {
+        confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#ffde59', '#ff758c', '#00ffcc', '#ffffff']
+        });
+    }
+
+    function generarAdornosAleatorios() {
+        let combo = "";
+        for(let i=0; i<5; i++){
+            combo += adornos[Math.floor(Math.random() * adornos.length)] + " ";
+        }
+        return combo;
+    }
+
+    function escribirEfectoTexto(elemento, texto, velocidad) {
+        return new Promise(resolve => {
+            let i = 0;
+            const intervalo = setInterval(() => {
+                elemento.innerHTML += texto[i];
+                i++;
+                if (i >= texto.length) {
+                    clearInterval(intervalo);
+                    resolve();
+                }
+            }, velocidad);
+        });
+    }
+
+    function animarElementosUnoAUno(elemento, texto, velocidad) {
+        return new Promise(resolve => {
+            let arreglo = texto.split(" ");
+            let i = 0;
+            const intervalo = setInterval(() => {
+                if(arreglo[i]) elemento.innerHTML += arreglo[i] + " ";
+                i++;
+                if (i >= arreglo.length) {
+                    clearInterval(intervalo);
+                    resolve();
+                }
+            }, velocidad);
+        });
+    }
+
+    async function enviarComentario() {
+        const texto = document.getElementById("comentarioTexto").value;
+        const btn = document.getElementById("btnEnviarCom");
+        if(texto.trim() === "") return alert("¡Escribe algo antes de enviar! 😊");
+
+        btn.innerText = "Enviando...";
+        btn.disabled = true;
+
+        fetch(URL_SCRIPT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nombre: nombreFinal, tipo: "COMENTARIO", mensaje: texto })
+        });
+
+        document.getElementById("zonaComentarios").innerHTML = `
+            <div style="color: #00ffcc; font-size: 22px; padding: 20px; animation: fadeIn 1s forwards;">
+                ¡Gracias! Tu mensaje ha sido guardado. 😊
+            </div>
+        `;
+    }
+
+    async function iniciarExperiencia() {
+        const contenedor = document.getElementById("contenido");
+
+        while(indiceSlide < totalSlides) {
+            contenedor.innerHTML = "";
+            lanzarConfeti();
+
+            let divNombre = document.createElement("div");
+            divNombre.className = "titulo-nombre flotante"; 
+            divNombre.innerText = "✨ " + nombreFinal + " ✨";
+            
+            let divMensajeLargo = document.createElement("div");
+            divMensajeLargo.className = "mensaje-largo";
+
+            let divAdornos = document.createElement("div");
+            divAdornos.className = "adornos flotante";
+            divAdornos.style.animationDelay = "1s";
+
+            let divZonaBotones = document.createElement("div");
+            divZonaBotones.className = "zona-botones";
+
+            let divMensajeCorto = document.createElement("div");
+            divMensajeCorto.className = "mensaje-corto";
+            divMensajeCorto.innerText = mensajesCortos[indiceSlide];
+
+            let divBotonesNav = document.createElement("div");
+            divBotonesNav.className = "botones-nav";
+
+            if (indiceSlide > 0) {
+                let btnRegresar = document.createElement("button");
+                btnRegresar.className = "btn-regresar";
+                btnRegresar.innerText = "◀ Volver";
+                btnRegresar.onclick = () => clickNavegacion('prev');
+                divBotonesNav.appendChild(btnRegresar);
+            }
+
+            let btnSiguiente = document.createElement("button");
+            btnSiguiente.className = "btn-siguiente";
+            btnSiguiente.innerText = (indiceSlide === totalSlides - 1) ? "Finalizar Sorpresa 💖" : "Siguiente ▶";
+            btnSiguiente.onclick = () => clickNavegacion('next');
+            divBotonesNav.appendChild(btnSiguiente);
+
+            divZonaBotones.appendChild(divMensajeCorto);
+            divZonaBotones.appendChild(divBotonesNav);
+
+            contenedor.appendChild(divNombre);
+            contenedor.appendChild(divMensajeLargo);
+            contenedor.appendChild(divAdornos);
+            contenedor.appendChild(divZonaBotones);
+
+            await escribirEfectoTexto(divMensajeLargo, mensajesLargos[indiceSlide], 60);
+            
+            let misAdornos = generarAdornosAleatorios();
+            await animarElementosUnoAUno(divAdornos, misAdornos, 300); 
+
+            divZonaBotones.style.opacity = "1";
+            await new Promise(resolve => { resolveBotonClic = resolve; });
+
+            if (direccionBoton === 'next') {
+                indiceSlide++;
+            } else if (direccionBoton === 'prev') {
+                indiceSlide--;
+            }
+        }
+
+        // PANTALLA FINAL
+        contenedor.innerHTML = "";
+        lanzarConfeti();
+        setTimeout(lanzarConfeti, 1000);
+
+        contenedor.innerHTML = `
+            <div class="flotante" style="font-size: 80px; margin-bottom: 20px;">💐</div>
+            <div style="font-size: 32px; font-weight: bold; color: white; text-shadow: 0 0 20px #ff758c; margin-bottom: 20px;">
+                Gracias por ser parte de mi historia.<br>Te quiero muchísimo.
+            </div>
+            
+            <div id="zonaComentarios" class="comentarios-box">
+                <p style="font-size: 18px; color: #ffde59;">¿Te gustaría dejarme un mensaje o decirme qué te pareció?</p>
+                <textarea id="comentarioTexto" placeholder="Escribe aquí..."></textarea>
+                <br>
+                <button id="btnEnviarCom" class="btn-siguiente" onclick="enviarComentario()">Enviar Mensaje 😊</button>
+            </div>
+
+            <div style="font-size: 22px; font-style: italic; color: #ffde59; margin-top: 40px;">
+                Att: Yeisson Moises Orellana Grande
+            </div>
+        `;
+    }
+
+    setTimeout(iniciarExperiencia, 500);
+</script>
+</body>
+</html>
