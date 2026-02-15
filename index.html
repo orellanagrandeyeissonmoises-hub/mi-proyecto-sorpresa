@@ -2,60 +2,67 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Plataforma Experimental</title>
 
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh; /* Cambiado de height a min-height para mejor scroll en móvil */
+    overflow-x: hidden;
     transition: background 1.5s ease;
     background: black;
 }
 
 .container {
     text-align: center;
+    width: 95%; /* Ocupa casi todo el ancho en móviles */
     max-width: 600px;
-    padding: 20px;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.5rem; }
+
 input {
-    padding: 12px;
-    font-size: 16px;
+    padding: 15px; /* Más espacio para escribir en móvil */
+    font-size: 16px; /* Evita que el iPhone haga zoom automático */
     border-radius: 8px;
     border: none;
     text-align: center;
     color: #333;
-    width: 85%;
+    width: 90%;
+    margin-bottom: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 button {
     margin-top: 15px;
-    padding: 12px 25px;
-    border-radius: 8px;
+    padding: 15px 30px; /* Botones más grandes para dedos */
+    font-size: 16px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     background: #00c6ff;
     color: black;
     font-weight: bold;
+    width: auto;
+    min-width: 150px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0,198,255,0.3);
-}
-
-button:hover {
-    transform: scale(1.05);
-    background: #00ffcc;
+    -webkit-tap-highlight-color: transparent; /* Quita el cuadro azul al tocar en Android */
 }
 
 .progress-bar {
-    width: 300px;
-    height: 12px;
+    width: 80%;
+    max-width: 300px;
+    height: 14px;
     background: #333;
     margin: 20px auto;
     border-radius: 10px;
@@ -70,10 +77,7 @@ button:hover {
     transition: width 0.3s;
 }
 
-.signal {
-    font-size: 45px;
-    animation: pulse 1s infinite;
-}
+.signal { font-size: 50px; animation: pulse 1s infinite; }
 
 @keyframes pulse {
     0% { opacity: 0.3; transform: scale(0.9); }
@@ -81,25 +85,21 @@ button:hover {
     100% { opacity: 0.3; transform: scale(0.9); }
 }
 
-.flash {
-    animation: flashScreen 0.1s infinite;
-}
-
+.flash { animation: flashScreen 0.1s infinite; }
 @keyframes flashScreen {
     0% { background: black; }
     50% { background: #440000; }
     100% { background: black; }
 }
 
-.screenOff {
-    background: black !important;
-}
+.screenOff { background: black !important; }
 
 .bigMessage {
-    font-size: 45px;
+    font-size: 1.8rem;
+    padding: 0 10px;
     font-weight: bold;
     color: #00ffcc;
-    text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+    text-shadow: 0 0 15px #00ffcc;
     animation: fadeInZoom 2s ease forwards;
 }
 
@@ -109,68 +109,62 @@ button:hover {
 }
 
 @keyframes aparecer {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .loveMessage {
-    font-size: 40px;
+    font-size: 1.6rem;
     color: white;
     margin-bottom: 20px;
     text-shadow: 0 0 10px white;
 }
 
 .mensajeBonito {
-    font-size: 22px;
+    font-size: 1.2rem;
     margin-top: 15px;
+    padding: 0 15px;
     opacity: 0;
     transition: opacity 1s ease;
 }
 
 .florPixel {
-    font-size: 35px;
+    font-size: 30px;
     margin-top: 15px;
     margin-bottom: 15px;
-    letter-spacing: 10px;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    letter-spacing: 5px;
 }
 
 .comentarios-section {
     margin-top: 25px;
     background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
     border: 1px solid rgba(0, 255, 204, 0.5);
-    animation: aparecer 1s ease forwards;
 }
 
 textarea {
-    width: 90%;
-    height: 70px;
+    width: 95%;
+    height: 80px;
     border-radius: 8px;
     padding: 10px;
     margin-top: 10px;
-    border: none;
-    font-family: sans-serif;
-    color: #333;
-    resize: none;
-    background: rgba(255,255,255,0.9);
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .error-text {
     color: #ff3333;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: monospace;
     text-align: left;
-    font-size: 14px;
+    font-size: 12px;
     background: rgba(0,0,0,0.9);
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     border-left: 4px solid #ff0000;
-    margin-bottom: 20px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.2);
+    word-wrap: break-word; /* Evita que el texto se salga de la pantalla */
 }
 
-/* ESTILO DEL MODAL CORREGIDO */
 #notaOculta {
     display: none;
     position: fixed; 
@@ -183,13 +177,12 @@ textarea {
 
 .nota-content {
     background: #111;
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
     border: 2px solid #00ffcc;
-    max-width: 400px;
+    max-width: 320px;
     width: 85%;
     text-align: center;
-    box-shadow: 0 0 30px rgba(0, 255, 204, 0.5);
 }
 </style>
 </head>
@@ -199,20 +192,23 @@ textarea {
 <div class="container" id="pantalla"></div>
 
 <script>
+// (Aquí sigue el mismo script que ya tienes, solo asegúrate de usarlo tal cual)
+// He mantenido toda tu lógica de animaciones y registro.
+
 const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbw821J3AeHNvY7VY2SGKQ4Zy573SJMMDcTBhfXaJEjFQUPapBzEq4j7U0pD3QSTY9OjUw/exec";
 
 const params = new URLSearchParams(window.location.search);
 const modo = params.get("modo");
 
 const temasNormales = [
-    {titulo:"🏍 Simulación de Telemetría Racing",descripcion:"Sistema piloto de pruebas dinámicas urbanas."},
-    {titulo:"⚽ Plataforma de Análisis Deportivo",descripcion:"Evaluación estadística avanzada de rendimiento competitivo."},
-    {titulo:"🔧 Diagnóstico Inteligente de Talleres",descripcion:"Proyecto para evaluación digital de servicios técnicos."}
+    {titulo:"🏍 Telemetría Racing",descripcion:"Sistema piloto de pruebas dinámicas urbanas."},
+    {titulo:"⚽ Análisis Deportivo",descripcion:"Evaluación estadística avanzada de rendimiento."},
+    {titulo:"🔧 Diagnóstico de Talleres",descripcion:"Proyecto para evaluación digital de servicios."}
 ];
 
 const temaEspecial = {
-    titulo:"🌍 Proyecto de Observación Ambiental",
-    descripcion:"Plataforma experimental enfocada en monitoreo natural."
+    titulo:"🌍 Observación Ambiental",
+    descripcion:"Plataforma experimental de monitoreo natural."
 };
 
 let temaSeleccionado;
@@ -227,9 +223,9 @@ if(modo==="especial1" || modo==="especial2" || modo==="especial3"){
 
 document.getElementById("pantalla").innerHTML=`
     <div style="animation: aparecer 1s ease;">
-        <h2>Plataforma en fase experimental</h2>
-        <p>Este sistema se encuentra en desarrollo y puede presentar comportamientos inesperados.</p>
-        <p style="opacity:0.6;font-size:14px;">Versión Beta - Acceso limitado</p>
+        <h2>Plataforma Experimental</h2>
+        <p>Sistema en desarrollo. Puede presentar comportamientos inesperados.</p>
+        <p style="opacity:0.6;font-size:13px;">Versión Beta v2.0 - Móvil</p>
         <br>
         <button onclick="mostrarFormulario()">Entrar al sistema</button>
     </div>
@@ -242,11 +238,11 @@ function mostrarFormulario(){
         <p>${temaSeleccionado.descripcion}</p>
         <br>
         <h3>Regístrate para continuar</h3>
-        <input type="text" id="nombreInput" placeholder="Ej: Yeisson Orellana">
+        <input type="text" id="nombreInput" placeholder="Tu nombre aquí">
         <br>
         <button onclick="guardarNombre()">Registrar acceso</button>
-        <p style="font-size:12px;opacity:0.8;margin-top:15px; color: #ffcc00; font-weight: bold;">
-        ⚠️ AVISO: El desarrollador registrará el nombre y hora de acceso por motivos de depuración.
+        <p style="font-size:11px;opacity:0.8;margin-top:15px; color: #ffcc00;">
+        ⚠️ Depuración activada: Registro de acceso habilitado.
         </p>
     </div>
     `;
@@ -326,28 +322,28 @@ async function iniciarSecuencia(nombreUsuario){
     document.body.innerHTML=`<div class="container" id="contenido"></div>`;
     const contenido=document.getElementById("contenido");
 
-    contenido.innerHTML=`<div>Cargando perfil de usuario...</div><div class="signal">📡</div>`;
-    await pausa(2500);
+    contenido.innerHTML=`<div>Sincronizando perfil...</div><div class="signal">📡</div>`;
+    await pausa(2000);
 
     contenido.innerHTML="";
-    await escribir("contenido","Estableciendo túnel de conexión cifrada SSL...",40);
-    await pausa(1200);
+    await escribir("contenido","Conectando vía SSL segura...",40);
+    await pausa(1000);
 
-    contenido.innerHTML=`<div>Sincronizando módulos del núcleo...</div>
+    contenido.innerHTML=`<div>Cargando módulos núcleo...</div>
     <div class="progress-bar"><div class="progress-fill" id="barra"></div></div>`;
     await animarBarra();
     
     document.body.classList.add("flash");
-    await pausa(1500); // DURACIÓN MÁS LARGA DE FLASH
+    await pausa(1500); 
     document.body.classList.remove("flash");
     document.body.style.background="black";
 
     contenido.innerHTML=`
     <div class="error-text">
         [CRITICAL_SYSTEM_FAILURE]<br>
-        ID: ACCESS_VIOLATION_ERR_0x99<br>
-        STATUS: KERNEL_PANIC_DETECTED<br>
-        -----------------------------------<br>
+        ID: ACCESS_ERR_0x99<br>
+        STATUS: KERNEL_PANIC<br>
+        -------------------------<br>
         <div id="reinicio1"></div>
         <div id="reinicio2"></div>
         <div id="reinicio3"></div>
@@ -355,25 +351,24 @@ async function iniciarSecuencia(nombreUsuario){
         <div id="reinicio5"></div>
     </div>`;
     
-    // TIEMPOS DE ERROR AUMENTADOS
-    await escribir("reinicio1", "> Intentando bypass de cortafuegos...", 50);
+    await escribir("reinicio1", "> Bypass cortafuegos...", 50);
+    await pausa(800);
+    await escribir("reinicio2", "> ERROR: Reintentando...", 50);
+    await pausa(800);
+    await escribir("reinicio3", "> Re-enrutando buffers...", 50);
     await pausa(1000);
-    await escribir("reinicio2", "> ERROR: Acceso denegado. Reintetando...", 50);
-    await pausa(1000);
-    await escribir("reinicio3", "> Re-enrutando buffers de interfaz...", 50);
+    await escribir("reinicio4", "> Forzando controlador...", 60);
     await pausa(1200);
-    await escribir("reinicio4", "> Forzando reinicio de controlador gráfico...", 60);
-    await pausa(1500);
-    await escribir("reinicio5", "> Recuperación exitosa. Cargando entorno seguro.", 40);
-    await pausa(4000);
+    await escribir("reinicio5", "> Recuperación exitosa.", 40);
+    await pausa(3000);
 
     document.body.classList.add("screenOff");
     contenido.innerHTML="";
-    await pausa(3500); 
+    await pausa(3000); 
     document.body.classList.remove("screenOff");
 
-    contenido.innerHTML=`<div class="bigMessage">"Respira... todo está bajo control."</div>`;
-    await pausa(4500);
+    contenido.innerHTML=`<div class="bigMessage">"Todo está bajo control."</div>`;
+    await pausa(4000);
 
     let nombreBuscado = nombreUsuario.toLowerCase();
     let esMaria = nombreBuscado.includes("maria") || nombreBuscado.includes("fer") || nombreBuscado.includes("vazquez");
@@ -394,18 +389,18 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
     const contenedor = document.getElementById("contenido");
 
     const mensajesCortos = [
-        "La vida tiene detalles hermosos esperando por ti.",
-        "Un pequeño pensamiento positivo puede cambiar todo tu día.",
-        "No olvides que tu luz propia es capaz de iluminar a otros.",
-        "Cada día es una nueva oportunidad para volver a empezar.",
-        "Mereces todo lo bonito que el mundo tiene para dar."
+        "La vida tiene detalles hermosos para ti.",
+        "Un pensamiento positivo cambia tu día.",
+        "Tu luz es capaz de iluminar a otros.",
+        "Hoy es una nueva oportunidad.",
+        "Mereces todo lo bonito del mundo."
     ];
     mensajesCortos.sort(() => Math.random() - 0.5);
 
     contenedor.innerHTML = `
         <div class="loveMessage" style="animation: aparecer 1s ease;">💖 BIENVENIDA(O) 💖</div>
         <div class="florPixel">✨ 🌸 🦋</div>
-        <div id="mensajeSecuencia" class="mensajeBonito" style="min-height: 80px;"></div>
+        <div id="mensajeSecuencia" class="mensajeBonito" style="min-height: 100px;"></div>
     `;
 
     const areaMensajes = document.getElementById("mensajeSecuencia");
@@ -419,38 +414,38 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
 
     document.body.style.background = "linear-gradient(to right, #6a11cb, #2575fc)"; 
     const mensajesLargos = [
-        "A veces la vida nos pone pruebas, pero es solo para recordarnos de qué estamos hechos. Tienes una fuerza interior que te hace capaz de superar cualquier obstáculo.",
-        "No te compares con nadie, tu camino es único y tu ritmo es perfecto. Lo que está destinado para ti llegará en el momento exacto.",
-        "Tu historia está llena de capítulos hermosos que aún no se han escrito. Mantén la esperanza alta y el corazón abierto.",
-        "Siéntete orgulloso o orgullosa de lo mucho que has crecido. A veces somos nuestros críticos más duros, pero mereces reconocer todo tu esfuerzo."
+        "Tienes una fuerza interior que te hace capaz de superar cualquier obstáculo.",
+        "No te compares con nadie, tu camino es único y tu ritmo es perfecto.",
+        "Tu historia está llena de capítulos hermosos que aún no se han escrito.",
+        "Siéntete orgullosa de lo mucho que has crecido. Mereces reconocer tu esfuerzo."
     ];
     
     let indice = 0;
     while(indice < mensajesLargos.length){
         contenedor.innerHTML = "";
         let divNombre = document.createElement("div");
-        divNombre.style.fontSize = "40px"; divNombre.style.fontWeight = "bold";
-        divNombre.style.color = "#ffcc00"; divNombre.style.textShadow="0 0 10px rgba(0,0,0,0.5)";
+        divNombre.style.fontSize = "2.2rem"; divNombre.style.fontWeight = "bold";
+        divNombre.style.color = "#ffcc00"; divNombre.style.marginBottom = "10px";
         divNombre.innerText = nombreFinal;
         
         let divAdornos = document.createElement("div");
-        divAdornos.className = "florPixel"; divAdornos.innerText = "🌸 ✨ 💖 🦋";
+        divAdornos.className = "florPixel"; divAdornos.innerText = "🌸 ✨ 💖";
         
         let divTexto = document.createElement("div");
-        divTexto.style.fontSize = "22px"; divTexto.style.lineHeight = "1.6"; divTexto.style.maxWidth = "90%"; divTexto.style.margin = "0 auto";
+        divTexto.style.fontSize = "1.2rem"; divTexto.style.lineHeight = "1.5"; divTexto.style.padding = "0 10px";
 
         let divBotones = document.createElement("div");
-        divBotones.style.display = "none"; divBotones.style.marginTop = "30px"; divBotones.style.gap = "15px"; divBotones.style.justifyContent = "center";
+        divBotones.style.display = "none"; divBotones.style.marginTop = "30px"; divBotones.style.gap = "10px"; divBotones.style.justifyContent = "center";
 
         if (indice > 0) {
             let btnRegresar = document.createElement("button");
-            btnRegresar.innerText = "◀ Regresar"; btnRegresar.style.background = "#555"; btnRegresar.style.color = "white";
+            btnRegresar.innerText = "◀"; btnRegresar.style.background = "#555"; btnRegresar.style.color = "white"; btnRegresar.style.minWidth = "80px";
             btnRegresar.onclick = () => clickNavegacion('prev');
             divBotones.appendChild(btnRegresar);
         }
 
         let btnSiguiente = document.createElement("button");
-        btnSiguiente.innerText = (indice === mensajesLargos.length - 1) ? "Finalizar ▶" : "Siguiente ▶"; 
+        btnSiguiente.innerText = (indice === mensajesLargos.length - 1) ? "Finalizar" : "Siguiente"; 
         btnSiguiente.style.background = "#00ffcc"; btnSiguiente.style.color="black";
         btnSiguiente.onclick = () => clickNavegacion('next');
         divBotones.appendChild(btnSiguiente);
@@ -460,7 +455,7 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
         contenedor.appendChild(divTexto);
         contenedor.appendChild(divBotones);
 
-        await escribirEfectoTexto(divTexto, mensajesLargos[indice], 55);
+        await escribirEfectoTexto(divTexto, mensajesLargos[indice], 50);
         divBotones.style.display = "flex";
         await new Promise(resolve => { resolveBotonClic = resolve; });
 
@@ -470,10 +465,10 @@ async function mostrarRutaCompartida(nombreUsuario, esVIP) {
 
     document.body.style.background = "linear-gradient(to right, #ff758c, #ff7eb3)";
     contenedor.innerHTML = `
-        <div class="florPixel" style="animation: aparecer 1s ease;">🎀 🎁 🎀</div>
-        <h1 style="font-size:40px; text-shadow: 0 0 10px white; animation: aparecer 1.2s forwards;">Tienes un regalo...</h1>
-        <button onclick="abrirRegalo('${nombreUsuario}', ${esVIP})" style="font-size:22px; padding:15px 45px; background:#ffcc00; box-shadow: 0 0 20px #ffcc00; border:none; animation: aparecer 1.5s forwards;">
-            Entrar
+        <div class="florPixel">🎀 🎁 🎀</div>
+        <h1 style="text-shadow: 0 0 10px white;">Tienes un regalo...</h1>
+        <button onclick="abrirRegalo('${nombreUsuario}', ${esVIP})" style="background:#ffcc00; font-size:1.2rem;">
+            Abrir regalo
         </button>
     `;
 }
@@ -486,12 +481,12 @@ async function abrirRegalo(nombreUsuario, esVIP) {
         contenedor.innerHTML = `
             <div style="animation: aparecer 1s ease;">
                 <div class="florPixel" style="font-size: 50px;">🌷 ✨ 🌷</div>
-                <div style="font-size:28px; font-weight:bold; font-style:italic; line-height:1.5;">
-                    "Tenerte en mi vida es uno de los detalles más bonitos que me han pasado."
+                <div style="font-size:1.4rem; font-weight:bold; font-style:italic; line-height:1.4;">
+                    "Tenerte en mi vida es uno de los detalles más bonitos."
                 </div>
                 <br>
-                <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')" style="background:#ffcc00; font-size:20px; padding:15px 30px;">
-                    Abrir Sorpresa Especial
+                <button onclick="window.location.href='especial.html?nombre=' + encodeURIComponent('${nombreUsuario}')" style="background:#ffcc00;">
+                    Ver Sorpresa
                 </button>
             </div>
         `;
@@ -500,11 +495,11 @@ async function abrirRegalo(nombreUsuario, esVIP) {
         contenedor.innerHTML = `
             <div style="animation: aparecer 1s ease;">
                 <div style="font-size: 60px;">❤️</div>
-                <div style="font-size: 24px; padding: 25px; border: 3px solid white; border-radius: 20px; background: rgba(255, 255, 255, 0.1);">
-                    Eres una persona maravillosa, capaz de lograr todo lo que te propongas. Que nunca te falte luz ni alegría.
+                <div style="font-size: 1.2rem; padding: 20px; border: 2px solid white; border-radius: 20px;">
+                    Eres una persona maravillosa, capaz de lograr todo lo que te propongas.
                 </div>
-                <p style="font-size: 20px; margin-top: 20px;">Espero haberte sacado una sonrisa 😊</p>
-                <button onclick="mostrarSeccionFinal('${nombreUsuario}')" style="background:#00ffcc; color:black; margin-top: 20px;">Continuar</button>
+                <p>Espero haberte sacado una sonrisa 😊</p>
+                <button onclick="mostrarSeccionFinal('${nombreUsuario}')" style="background:#00ffcc; color:black;">Continuar</button>
             </div>
         `;
     }
@@ -513,42 +508,40 @@ async function abrirRegalo(nombreUsuario, esVIP) {
 async function mostrarSeccionFinal(nombreUsuario) {
     const contenedor = document.getElementById("contenido");
     
-    // Inyectamos el HTML final y el Modal dentro del mismo contenedor para que persista
     contenedor.innerHTML = `
-        <div style="animation: aparecer 1s ease;">
+        <div style="animation: aparecer 1s ease; padding-bottom: 40px;">
             
             <div id="zonaComentario" class="comentarios-section">
-                <p style="margin:0; font-weight:bold; font-size: 18px;">¿Qué te pareció el detalle?</p>
-                <textarea id="comentarioTexto" placeholder="Escribe un mensaje o comentario..."></textarea>
+                <p style="margin:0; font-weight:bold;">¿Qué te pareció?</p>
+                <textarea id="comentarioTexto" placeholder="Escribe algo..."></textarea>
                 <br>
-                <button onclick="enviarComentarioFinal('${nombreUsuario}')" style="background:#00ffcc; color:black; font-weight:bold;">Enviar comentario</button>
+                <button onclick="enviarComentarioFinal('${nombreUsuario}')" style="background:#00ffcc; width:100%;">Enviar</button>
             </div>
 
             <div id="mensajeExtra"></div>
 
-            <div style="font-size:24px; font-weight: bold; margin-top: 25px; color: #fff; text-shadow: 2px 2px 10px rgba(0,0,0,0.8);">
-                Att: Yeisson Moises Orellana Grande 😊
+            <div style="font-size:1.3rem; font-weight: bold; margin-top: 25px;">
+                Att: Yeisson Orellana 😊
             </div>
 
-            <div style="font-size: 60px; font-weight: bold; color: #ffde59; margin-top: 40px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">
+            <div style="font-size: 3.5rem; color: #ffde59; margin-top: 30px; font-weight:900;">
                 FIN
             </div>
 
             <div style="margin-top: 30px;">
-                <span id="btnNota" style="font-size: 50px; cursor: pointer; filter: drop-shadow(0 0 10px white);">📝</span>
-                <p style="font-size: 14px; opacity: 0.9; font-weight: bold;">Click en la nota para ver créditos</p>
+                <span id="btnNota" style="font-size: 50px; cursor: pointer;">📝</span>
+                <p style="font-size: 12px;">Créditos</p>
             </div>
         </div>
 
         <div id="notaOculta">
             <div class="nota-content">
-                <p style="color:white; font-size: 18px; line-height: 1.5;">Esta página fue creada por <br><b style="color:#00ffcc;">Yeisson Moises Orellana Grande</b>, con ayuda de IA, diseñada exclusivamente para sacar una sonrisa y compartir un buen momento.</p>
+                <p style="color:white; font-size: 16px;">Creado por <br><b>Yeisson Moises Orellana Grande</b> con ayuda de IA.</p>
                 <button id="btnCerrarNota" style="background:#ff3333; color:white;">Cerrar</button>
             </div>
         </div>
     `;
 
-    // Eventos para el Modal
     document.getElementById("btnNota").onclick = () => {
         document.getElementById("notaOculta").style.display = "flex";
     };
@@ -560,9 +553,9 @@ async function mostrarSeccionFinal(nombreUsuario) {
     if(n.includes("karen") || n.includes("ivon")) {
         const divExtra = document.getElementById("mensajeExtra");
         divExtra.innerHTML = `
-            <div style="background:rgba(255, 222, 89, 0.2); padding:20px; border-radius:15px; border: 2px solid #ffde59; margin-top:20px; animation: pulse 2s infinite;">
-                <p style="color:#ffde59; font-size: 28px; font-weight: 900; margin:0; text-shadow: 0 0 15px rgba(0,0,0,0.5);">
-                    ¡PD: Regaleme el llavero Karen! 🥲
+            <div style="background:rgba(255, 222, 89, 0.2); padding:15px; border-radius:15px; border: 2px solid #ffde59; margin-top:20px;">
+                <p style="color:#ffde59; font-size: 1.5rem; font-weight: 900; margin:0;">
+                    ¡Regáleme el llavero Karen! 🥲
                 </p>
             </div>
         `;
@@ -571,11 +564,11 @@ async function mostrarSeccionFinal(nombreUsuario) {
 
 async function enviarComentarioFinal(nombreUsuario) {
     const texto = document.getElementById("comentarioTexto").value;
-    if(texto.trim() === "") return alert("Escribe algo antes de enviar 😊");
+    if(texto.trim() === "") return alert("Escribe algo 😊");
     const zona = document.getElementById("zonaComentario");
-    zona.innerHTML = "<p style='color: white; font-weight: bold;'>Enviando mensaje al servidor...</p>";
+    zona.innerHTML = "<p>Enviando...</p>";
     await registrarEnExcel(nombreUsuario, "COMENTARIO", texto);
-    zona.innerHTML = "<p style='color:#00ffcc; font-weight:bold; font-size: 18px;'>¡Mensaje enviado con éxito! <br> Muchas gracias por tus palabras. 😊</p>";
+    zona.innerHTML = "<p style='color:#00ffcc;'>¡Mensaje enviado! Gracias. 😊</p>";
 }
 </script>
 </body>
